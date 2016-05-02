@@ -1,0 +1,79 @@
+$def with (data)
+<!--显示电量信息界面-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>电量</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="http://203.195.235.76/jssdk/css/style.css">
+    <link rel="stylesheet" href="/static/dist/lib/weui.min.css">
+    <link rel="stylesheet" href="/static/dist/css/jquery-weui.css">
+    <link rel="stylesheet" href="/static/css/demos.css">
+
+    <style>
+        .p{
+        width:100%;
+        margin:0 auto;
+        text-align:center;
+        }
+
+    </style>
+</head>
+
+<body ontouchstart>
+<br>
+<p class="demos-sub-title">更新时间&nbsp;&nbsp;<span id="time"></span></p>
+<hr>
+<div>
+    <div class="weui_cells_title">剩余电量</div>
+</div>
+<br>
+<div class="p">
+    <div id="indicatorContainer"></div>
+</div>
+<br>
+<div class="weui_cells_title">使用情况</div>
+<div class="weui_cells">
+    <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>使用时常</p>
+        </div>
+        <div class="weui_cell_ft">3000小时</div>
+    </div>
+    <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>生产日期</p>
+        </div>
+        <div class="weui_cell_ft">2016年9月12日</div>
+    </div>
+</div>
+<br>
+<a href="" class="weui_btn weui_btn_default">刷 新</a>
+<script src="/static/dist/lib/jquery-2.1.4.js"></script>
+<script src="/static/js/radialIndicator.js"></script>
+<script>
+$$(document).ready(function(){
+    $$("#time").text(getTime());
+
+    $$("#indicatorContainer").radialIndicator({
+    barColor: {
+        0: '#FF0000',
+        33: '#FFFF00',
+        66: '#0066FF',
+        100: '#33CC33'
+    },
+    percentage: true,
+     radius: 100,
+    });
+});
+
+function getTime() {
+    var date = new Date();
+    return date.getHours()+" : "+(date.getMinutes())+" : "+date.getSeconds();
+}
+
+
+
+</script>
+</body>
+</html>

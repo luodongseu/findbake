@@ -1,0 +1,58 @@
+<!--用户反馈页-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>反馈</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="http://203.195.235.76/jssdk/css/style.css">
+    <link rel="stylesheet" href="/static/dist/lib/weui.min.css">
+    <link rel="stylesheet" href="/static/dist/css/jquery-weui.css">
+    <link rel="stylesheet" href="/static/css/demos.css">
+
+    <style>
+        html{
+        padding-left:12px;
+        padding-right:12px;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+<div class="demos-header">
+    <h2 class='demos-second-title'>用户体验反馈</h2>
+    <p class='demos-sub-title'>Powered by FINDBAKE</p>
+</div>
+<div class="weui_cells weui_cells_form">
+    <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+            <textarea id="fb" class="weui_textarea" placeholder="请输入评论" rows="5"></textarea>
+        </div>
+    </div>
+</div>
+<br>
+<a href="javascript:;" id="show-toast" class="weui_btn weui_btn_primary">发送</a>
+<script src="/static/dist/lib/jquery-2.1.4.js"></script>
+<script src="/static/dist/js/jquery-weui.js"></script>
+<script>
+$$(document).on("click", "#show-toast", function() {
+        var contentStr = $$(".weui_textarea").val();
+        if(contentStr==''){
+            $$.toast("反馈内容不能为空","forbidden");
+            return;
+        }
+        $$.showLoading();
+        $$.post("/feedback",
+            {
+                content:contentStr
+            },
+            function(data){
+                 $$.hideLoading();
+                 $$.toast("反馈成功");
+                 $$("#fb").val('');
+            },
+            "text");//这里返回的类型有：json,html,xml,text
+      });
+</script>
+
+</body>
+</html>

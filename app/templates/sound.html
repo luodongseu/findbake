@@ -1,0 +1,81 @@
+$def with (data, status)
+<!--声音控制界面-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>声音控制</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="http://203.195.235.76/jssdk/css/style.css">
+    <link rel="stylesheet" href="/static/dist/lib/weui.min.css">
+    <link rel="stylesheet" href="/static/dist/css/jquery-weui.css">
+    <link rel="stylesheet" href="/static/css/demos.css">
+    <style>
+
+        .button{
+            width:96%;
+            margin:0 auto;
+        }
+
+    </style>
+</head>
+
+<body ontouchstart>
+<br>
+<p class="demos-sub-title">持续时间&nbsp;&nbsp;<span id="time">0s</span></p>
+<hr>
+<div>
+    <div class="weui_cells_title">声音状态</div>
+    <div class="weui_msg">
+        $if status==1:
+            <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">声音已打开</h2>
+            </div>
+        $else:
+            <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">声音已关闭</h2>
+            </div>
+    </div>
+</div>
+<br>
+$if status==1:
+    <div class="button">
+        <a href="javascript:close()" class="weui_btn weui_btn_primary">关闭声音</a>
+    </div>
+$else:
+    <div class="button">
+        <a href="javascript:open()" class="weui_btn weui_btn_warn">打开声音</a>
+    </div>
+<script src="/static/dist/lib/jquery-2.1.4.js"></script>
+<script src="/static/dist/js/jquery-weui.js"></script>
+<script>
+function close(){
+    $$.confirm("确定关闭?",
+    function() {
+        //点击确认后的回调函数
+        <!--alert("y");-->
+        window.location.href="?close";
+    },
+    function() {
+        //点击取消后的回调函数
+        <!--alert("n");-->
+    });
+}
+function open(){
+    $$.confirm("打开声音后设备声音将持续不断,电量消耗较大,可能出现电量不足的情况","确认打开声音?",
+    function() {
+        //点击确认后的回调函数
+        <!--alert("y");-->
+        window.location.href="?open";
+    },
+    function() {
+        //点击取消后的回调函数
+        <!--alert("n");-->
+});
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+$def with (data)
+<!--绑定设备信息 使用二维码扫描-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>绑定设备</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="http://203.195.235.76/jssdk/css/style.css">
+    <link rel="stylesheet" href="/static/dist/lib/weui.min.css">
+    <link rel="stylesheet" href="/static/dist/css/jquery-weui.css">
+    <link rel="stylesheet" href="/static/css/demos.css">
+    <style type="text/css">
+        html{
+        padding-left:12px;
+        padding-right:12px;
+        }
+        h4{
+        color:red;
+        width:100%;
+        margin:0 auto;
+        text-align:center;
+        margin-top:12px;
+        margin-bottom:26px;
+        }
+        p{
+        font-size:14px;
+        }
+        li{
+        font-size:12px;
+        list-style-type:none;
+        }
+        .warn{
+        width:100%;
+        margin:0 auto;
+        text-align:center;
+        margin-top:12px;
+        }
+    </style>
+</head>
+<body>
+<div class="warn"><i class="weui_icon_msg weui_icon_warn"></i></div>
+<h4>系统检测到您还未绑定设备,请先绑定!</h4>
+<p>
+    <bold>&nbsp;&nbsp;绑定声明:</bold><br>
+<ul>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;1.请购买正品!</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;2.每个硬件设备对应唯一的二维码</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;3.每个微信账号最多只能绑定一个设备</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;4.微信绑定设备成功后可以查看设备详细信息和远程操控</li>
+</ul>
+<br>
+</p>
+<a href="javascript:scanCode();" class="weui_btn weui_btn_plain_primary">现在绑定</a>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  wx.config({
+      debug: true,
+      appId: 'wx0967ed045660afe4',
+      timestamp: $data['timestamp'],
+      nonceStr: '$data['nonceStr']',
+      signature: '$data['signature']',
+      jsApiList: [
+        'scanQRCode'
+      ]
+  });
+
+  function scanCode(){
+    wx.scanQRCode({
+      needResult: 1,
+      desc: 'scanQRCode desc',
+      success: function (res) {
+        alert(res.resultStr);
+        window.location.href="/bind?result=success";
+      }
+    });
+  }
+</script>
+<script src="/static/js/zepto.min.js"></script>
+<script src="/static/js/demo.js"></script>
+</body>
+</html>

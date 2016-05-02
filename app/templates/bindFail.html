@@ -1,0 +1,40 @@
+<!--绑定设备成功后显示-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>失败</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="http://203.195.235.76/jssdk/css/style.css">
+    <link rel="stylesheet" href="/static/dist/lib/weui.min.css">
+    <link rel="stylesheet" href="/static/dist/css/jquery-weui.css">
+    <link rel="stylesheet" href="/static/css/demos.css">
+</head>
+
+<body ontouchstart>
+
+<div class="weui_msg">
+    <div class="weui_icon_area"><i class="weui_icon_fail weui_icon_msg"></i></div>
+    <div class="weui_text_area">
+        <h2 class="weui_msg_title">绑定设备失败</h2>
+        <p class="weui_msg_desc">服务器出错,请联系客服!</p>
+    </div>
+    <div class="weui_opr_area">
+        <p class="weui_btn_area">
+            <a href="javascript:retry();" class="weui_btn weui_btn_primary">重试</a>
+            <!--<a href="javascript:close();" class="weui_btn weui_btn_default">关闭页面</a>-->
+            <script>
+                function retry(){
+                    window.location.href="#";
+                }
+            </script>
+        </p>
+    </div>
+    <!--<div class="weui_extra_area">-->
+    <!--<a href="">查看详情</a>-->
+    <!--</div>-->
+</div>
+
+<script src="/static/js/zepto.min.js"></script>
+<script src="/static/js/demo.js"></script>
+</body>
+</html>

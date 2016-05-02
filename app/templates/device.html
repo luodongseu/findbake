@@ -1,0 +1,74 @@
+$def with (data)
+<!--显示设备信息界面-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>设备信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="http://203.195.235.76/jssdk/css/style.css">
+    <link rel="stylesheet" href="/static/dist/lib/weui.min.css">
+    <link rel="stylesheet" href="/static/dist/css/jquery-weui.css">
+    <link rel="stylesheet" href="/static/css/demos.css">
+
+    <style>
+    </style>
+</head>
+
+<body ontouchstart>
+<br>
+<p class="demos-sub-title">更新时间&nbsp;&nbsp;<span id="time"></span></p>
+<hr>
+<div>
+    <div class="weui_cells_title">基本信息</div>
+    <div class="weui_cells">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>设备ID</p>
+            </div>
+            <div class="weui_cell_ft">FB_T_N12031</div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>生产日期</p>
+            </div>
+            <div class="weui_cell_ft">2016年9月12日</div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>绑定状态</p>
+            </div>
+            <div class="weui_cell_ft">已绑定</div>
+        </div>
+        </div>
+    <div class="weui_cells_title">数据收集</div>
+    <div class="weui_cells">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>已完成数据上传次数</p>
+            </div>
+            <div class="weui_cell_ft">200次</div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>最后一次上传时间</p>
+            </div>
+            <div class="weui_cell_ft">20分钟前</div>
+        </div>
+    </div>
+</div>
+<br>
+<a href="" class="weui_btn weui_btn_default">刷  新</a>
+<script src="/static/js/zepto.min.js"></script>
+<script src="/static/js/demo.js"></script>
+<script>
+$$(document).ready(function(){
+    $$("#time").text(getTime());
+});
+
+function getTime() {
+    var date = new Date();
+    return date.getHours()+":"+(date.getMinutes())+":"+date.getSeconds();
+}
+</script>
+</body>
+</html>
