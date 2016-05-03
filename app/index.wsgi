@@ -48,7 +48,7 @@ class Wrong:
 app = web.application(urls, globals())
 
 #在应用处理器中加入session
-session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': ''})
+session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
 def session_hook():
     web.ctx.session = session
 app.add_processor(web.loadhook(session_hook))
