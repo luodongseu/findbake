@@ -41,7 +41,6 @@ templates_root = os.path.join(app_root, 'templates')
 render = web.template.render(templates_root)
 
 class Wrong:
-
     def GET(self):
         """ Show 404 page """
         return render.f()
@@ -51,7 +50,7 @@ app = web.application(urls, globals())
 #在应用处理器中加入session
 session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': ''})
 def session_hook():
-　　web.ctx.session = session
+    web.ctx.session = session
 app.add_processor(web.loadhook(session_hook))
 
 #application = sae.create_wsgi_app(app)
