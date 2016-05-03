@@ -70,9 +70,25 @@ $def with (data)
     wx.scanQRCode({
       needResult: 1,
       desc: 'scanQRCode desc',
-      success: function (res) {
-        alert(res.resultStr);
-        window.location.href="/bind?result=success";
+      success: function(data){
+        //异步提交数据
+        $.post(
+            "#",
+            {
+                code:data.resultStr,
+                username:data['username']
+            },
+            function(result)
+            {
+                //alert(result);
+                if(result=='success'){
+                    window.location.href="/bind?result=success";
+                }else{
+                    window.location.href="/bind?result=fail&msg="+result;
+                }
+            }
+        );
+
       }
     });
   }
