@@ -32,7 +32,7 @@ class Conversation:
         # sha1 password
         # ...
         # if comes from weixin return echostr
-        #if hashcode == signature:
+        # if hashcode == signature:
         return echostr
 
     def POST(self):
