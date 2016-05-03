@@ -106,7 +106,7 @@ class ApiManager:
         if not username:
             return 'fail', errors.NOT_BIND
         t = time.time()  # 当前登录时间
-        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查询当前用户是否存在
+        r = Db.select('t_user', where="wx_name=$username",vars = locals(), limit=1)  # 查询当前用户是否存在
         if not r:  # 用户不存在,即未绑定,则跳转绑定
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
