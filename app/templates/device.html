@@ -25,19 +25,19 @@ $def with (data)
             <div class="weui_cell_bd weui_cell_primary">
                 <p>设备ID</p>
             </div>
-            <div class="weui_cell_ft">FB_T_N12031</div>
+            <div class="weui_cell_ft">$data['id']</div>
         </div>
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
                 <p>生产日期</p>
             </div>
-            <div class="weui_cell_ft">2016年9月12日</div>
+            <div class="weui_cell_ft">$data['ct']</div>
         </div>
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
                 <p>绑定状态</p>
             </div>
-            <div class="weui_cell_ft">已绑定</div>
+            <div class="weui_cell_ft">$data['bs']</div>
         </div>
         </div>
     <div class="weui_cells_title">数据收集</div>
@@ -46,13 +46,13 @@ $def with (data)
             <div class="weui_cell_bd weui_cell_primary">
                 <p>已完成数据上传次数</p>
             </div>
-            <div class="weui_cell_ft">200次</div>
+            <div class="weui_cell_ft">$data['count']次</div>
         </div>
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
                 <p>最后一次上传时间</p>
             </div>
-            <div class="weui_cell_ft">20分钟前</div>
+            <div class="weui_cell_ft">$data['last']</div>
         </div>
     </div>
 </div>
