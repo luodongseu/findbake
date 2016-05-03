@@ -44,7 +44,7 @@ class Wrong:
 
     def GET(self):
         """ Show 404 page """
-        return render.404()
+        return render.f()
 
 app = web.application(urls, globals())
 
