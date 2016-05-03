@@ -156,7 +156,7 @@ class ApiManager:
         '''
         if not username:
             return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
+        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
@@ -186,7 +186,7 @@ class ApiManager:
         '''
         if not username:
             return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
+        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备,即用户未注册账号
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
@@ -215,7 +215,7 @@ class ApiManager:
         '''
         if not username:
             return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
+        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
