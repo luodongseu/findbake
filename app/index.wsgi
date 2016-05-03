@@ -1,7 +1,6 @@
 # coding: UTF-8
 import os
-import sys 
-#import sae
+import sys
 import web
 
 abspath = os.path.dirname(__file__)
@@ -34,31 +33,26 @@ urls = (
     '/feedback','Feedback',
     '/service','Service',
     '/test','Test',
-    '/','hello'
+    '/404','Wrong'
 )
  
 app_root = os.path.dirname(__file__)
 templates_root = os.path.join(app_root, 'templates')
 render = web.template.render(templates_root)
 
-class hello:
+class Wrong:
 
     def GET(self):
-        """ Show page """
-        return 'hello'
+        """ Show 404 page """
+        return render.404()
 
 app = web.application(urls, globals())
 
-#增加session管理,将session放入全局的web.config
-#if web.config.get('_session') is None:
-#    m_session = web.session.Session(app, DiskStore('sessions'),
-#                        initializer={'userid':0})
-#    web.config._session = m_session
-#else:
-#    m_session = web.config._session
-#def session_hook():
-#    web.ctx.session = m_session
-#app.add_processor(web.loadhook(session_hook))
+#在应用处理器中加入session
+session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,’sessions’)), initializer={'userid': 0})
+def session_hook():
+　　web.ctx.session = session
+app.add_processor(web.loadhook(session_hook))
 
 #application = sae.create_wsgi_app(app)
 
