@@ -23,41 +23,39 @@ $def with (data)
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=791658337c322d078ee45d7993685ca7"></script>
 <script>
 var map = new AMap.Map('container',{
-        resizeEnable: true,
-        zoom: 16,
-        center: [116.480983, 39.989628]
-    });
-   var marker = new AMap.Marker({
-            position: [116.480983, 39.989628]
-    });
-    marker.setMap(map);
+    resizeEnable: true,
+    zoom: 15,
+    center: [data[0]['lon'], data[0]['lat']]
+});
+//var marker = new AMap.Marker({
+//         position: [data[0]['lon'], data[0]['lat']]
+// });
+//  marker.setMap(map);
 //marker.setMap();//移除marker
 
- AMap.plugin(['AMap.Scale'],function(){
-        var scale = new AMap.Scale();
-        map.addControl(scale);
-    })
+AMap.plugin(['AMap.Scale'],function(){
+    var scale = new AMap.Scale();
+    map.addControl(scale);
+})
 
-
-  var lineArr = [
-        [116.480983, 39.989628],
-        [116.482122, 39.961176],
-        [116.422122, 39.921176],
-        [116.402122, 39.911176],
-        [116.382122, 39.901176]
-    ];
-    var polyline = new AMap.Polyline({
-        path: lineArr,          //设置线覆盖物路径
-        strokeColor: "#3366FF", //线颜色
-        strokeOpacity: 1,       //线透明度
-        strokeWeight: 5,        //线宽
-        strokeStyle: "solid",   //线样式
-        strokeDasharray: [10, 5] //补充线样式
-    });
-    polyline.setMap(map);
-
-
-
+<!--[116.480983, 39.989628],-->
+<!--[116.482122, 39.961176],-->
+<!--[116.422122, 39.921176],-->
+<!--[116.402122, 39.911176],-->
+<!--[116.382122, 39.901176],-->
+var lineArr = [
+    $for p in data:
+        [$p['lon'],$p['lat']],
+];
+var polyline = new AMap.Polyline({
+    path: lineArr,          //设置线覆盖物路径
+    strokeColor: "#3366FF", //线颜色
+    strokeOpacity: 1,       //线透明度
+    strokeWeight: 5,        //线宽
+    strokeStyle: "solid",   //线样式
+    strokeDasharray: [10, 5] //补充线样式
+});
+polyline.setMap(map);
 
 </script>
 </body>
