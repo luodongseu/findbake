@@ -43,7 +43,9 @@ class Bind:
                 '''
                 绑定成功
                 '''
-                return config.render.bindSuccess()
+                data = []
+                data['username'] = username
+                return config.render.bindSuccess(data)
             else:
                 ''' 绑定失败 '''
                 return config.render.bindFail()
