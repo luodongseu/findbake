@@ -27,31 +27,31 @@ $def with (data)
             <div class="weui_cell_bd weui_cell_primary">
                 <p>设备ID</p>
             </div>
-            <div class="weui_cell_ft">FB_T_N12031</div>
+            <div class="weui_cell_ft">$data['id']</div>
         </div>
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
                 <p>更新时间</p>
             </div>
-            <div class="weui_cell_ft">2分钟前</div>
+            <div class="weui_cell_ft">$data['last']</div>
         </div>
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
-                <p>坐标LAT</p>
+                <p>坐标经度</p>
             </div>
-            <div class="weui_cell_ft">113.2222</div>
+            <div class="weui_cell_ft">$data['lat']</div>
         </div>
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
-                <p>坐标LAT</p>
+                <p>坐标纬度</p>
             </div>
-            <div class="weui_cell_ft">113.2222</div>
+            <div class="weui_cell_ft">$data['lon']</div>
         </div>
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
                 <p>位置解析</p>
             </div>
-            <div class="weui_cell_ft">江苏省南京市</div>
+            <div class="weui_cell_ft" id="location">江苏省南京市</div>
         </div>
 
     </div>
@@ -80,33 +80,38 @@ function getTime() {
 var map = new AMap.Map('container',{
         resizeEnable: true,
         zoom: 18,
-        center: [116.480983, 39.989628]
+        center: [$data['lon'], $data['lat']]
     });
    var marker = new AMap.Marker({
-            position: [116.480983, 39.989628]
+            position: [$data['lon'], $data['lat']]
     });
     marker.setMap(map);
-//marker.setMap();//移除marker
 
- AMap.plugin(['AMap.Scale'],function(){
+AMap.plugin(['AMap.Scale'],function(){
         var scale = new AMap.Scale();
         map.addControl(scale);
     })
 
-
-  var lineArr = [
-        [116.480983, 39.989628],
-        [116.382122, 39.901176]
-    ];
-    var polyline = new AMap.Polyline({
-        path: lineArr,          //设置线覆盖物路径
-        strokeColor: "#3366FF", //线颜色
-        strokeOpacity: 1,       //线透明度
-        strokeWeight: 5,        //线宽
-        strokeStyle: "solid",   //线样式
-        strokeDasharray: [10, 5] //补充线样式
-    });
-    polyline.setMap(map);
+//解析地址
+AMap.service('AMap.Geocoder',function(){//回调函数
+        //实例化Geocoder
+        geocoder = new AMap.Geocoder({
+            //city: "010"//城市，默认：“全国”
+        });
+        //TODO: 使用geocoder 对象完成相关功能
+         //逆地理编码
+        var lnglatXY=[$data['lon'], $data['lat']];//地图上所标点的坐标
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+               //获得了有效的地址信息:
+               //即，result.regeocode.formattedAddress
+               $$("#location").text(result.regeocode.formattedAddress);
+            }else{
+               //获取地址失败
+               $$("#location").text("地址解析失败");
+            }
+        });
+    })
 
 
 
