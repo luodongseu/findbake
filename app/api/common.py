@@ -10,7 +10,7 @@ import time
 
 class Common:
 
-    @class_property
+    @classmethod
     def islogin(self, name):
         '''
         判断用户是否登录
@@ -27,7 +27,7 @@ class Common:
         except Exception as e:
             return web.redirect('/home?username=' + name)
 
-    @class_property
+    @classmethod
     def getLoginUsername(self):
         '''
         获取登录的用户名
@@ -36,7 +36,7 @@ class Common:
 
         return self.islogin('')
 
-    @class_property
+    @classmethod
     def addsession(self, username):
         '''
         将用户名 加入session 中
@@ -49,7 +49,7 @@ class Common:
         except Exception as e:
             return 'fail'
 
-    @class_property
+    @classmethod
     def secToStr(self, sec):
         '''
         秒数转字符串
@@ -58,7 +58,7 @@ class Common:
         '''
         return time.strftime("%Y年%m月%d日% H:%M:%S", time.localtime(sec))
 
-    @class_property
+    @classmethod
     def secToLast(self, sec):
         '''
         计算多少时间前
