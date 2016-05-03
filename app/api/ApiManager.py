@@ -19,9 +19,12 @@ Db = config.db  # 数据库操作对象
 
 
 class ApiManager:
+
+    @classmethod
     def refreshDeviceInfo(self, code, data):
         '''
         (1)更新设备信息
+
         :param code:
             设备号
         :param data:
@@ -48,6 +51,7 @@ class ApiManager:
         Db.update('t_order_quene', where="device_id=" + d['id'], status=2)  # 将队列中所有当前设备的指令全部更新为完成
         return r
 
+    @classmethod
     def sendOrder(self, deviceid, order):
         '''
         向设备发送指令
@@ -62,6 +66,7 @@ class ApiManager:
         Db.insert('t_order_quene', device_id=deviceid, code=order, status=1, time=t)  # 将指令压入指令队列中
         return 'success', ''
 
+    @classmethod
     def bindDevice(self, username, devicecode):
         '''
         用户与设备绑定
@@ -84,6 +89,7 @@ class ApiManager:
             Db.insert('t_user', wx_name=username, device_id=d['id'], bind_time=t)
             return 'success', ''
 
+    @classmethod
     def login(self, username):
         '''
         用户进入首页时登录
@@ -100,6 +106,7 @@ class ApiManager:
         Db.insert('t_user_attribute', user_id=u['id'], ip=ip, time=t)  # 返回ID
         return 'success', username
 
+    @classmethod
     def getDeviceInfo(self, username):
         '''
         用户查看设备信息
@@ -130,6 +137,7 @@ class ApiManager:
             res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
 
+    @classmethod
     def getSoundStatus(self, username):
         '''
         用户获取声音状态
@@ -156,6 +164,7 @@ class ApiManager:
                 s = 4  # 等待关闭
         return 'success', s
 
+    @classmethod
     def getUserInfo(self, username):
         '''
         用户查看自己的基本信息
@@ -182,6 +191,7 @@ class ApiManager:
             res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次登录时间
         return 'success', res
 
+    @classmethod
     def getDeviceLocationInfo(self, username):
         '''
         读取设备当前坐标信息
@@ -211,6 +221,7 @@ class ApiManager:
             res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
 
+    @classmethod
     def getYesterdayLocationInfos(self, username):
         '''
         获取昨天的坐标数据集
