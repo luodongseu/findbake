@@ -33,6 +33,8 @@ class ApiManager:
         :调用者: 设备
         :return:
         '''
+        if not code or not data:
+            return 'fail', errors.ERROR_SYSTEM
         t = time.time()  # 当前时间
         ds = Db.select('t_device', where="code=" + code, limit=1)  # 查询当前设备信息
         if ds == None:
@@ -62,6 +64,8 @@ class ApiManager:
         :调用者 用户
         :return 'success/fail d':
         '''
+        if not deviceid or not order:
+            return 'fail', errors.ERROR_SYSTEM
         t = time.time()  # 当前指令创建时间
         Db.insert('t_order_quene', device_id=deviceid, code=order, status=1, time=t)  # 将指令压入指令队列中
         return 'success', ''
@@ -76,6 +80,8 @@ class ApiManager:
             用户扫描的二维码提供的code
         :return 'success/fail d':
         '''
+        if not username or not devicecode:
+            return 'fail', errors.NOT_BIND
         t = time.time()  # 当前绑定时间
         r = Db.select('t_device', where="code=" + devicecode, limit=1)  # 检查devicecode是否存在
         if not r:  # 不存在设备code
@@ -97,6 +103,8 @@ class ApiManager:
             微信用户提供的用户名
         :return 'success/fail d':
         '''
+        if not username:
+            return 'fail', errors.NOT_BIND
         t = time.time()  # 当前登录时间
         r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查询当前用户是否存在
         if not r:  # 用户不存在,即未绑定,则跳转绑定
@@ -114,6 +122,8 @@ class ApiManager:
             微信用户提供的用户名
         :return 'res[]/fail d':
         '''
+        if not username:
+            return 'fail', errors.NOT_BIND
         r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
@@ -144,6 +154,8 @@ class ApiManager:
         :param username:
         :return:
         '''
+        if not username:
+            return 'fail', errors.NOT_BIND
         r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
@@ -172,6 +184,8 @@ class ApiManager:
             微信用户提供的用户名
         :return 'res[]/fail d':
         '''
+        if not username:
+            return 'fail', errors.NOT_BIND
         r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备,即用户未注册账号
             return 'fail', errors.NOT_BIND
@@ -199,6 +213,8 @@ class ApiManager:
             微信用户提供的用户名
         :return 'res[]/fail d':
         '''
+        if not username:
+            return 'fail', errors.NOT_BIND
         r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
@@ -229,6 +245,8 @@ class ApiManager:
             微信用户提供的用户名
         :return 'res[]/fail d':
         '''
+        if not username:
+            return 'fail', errors.NOT_BIND
         r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
