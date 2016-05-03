@@ -1,4 +1,4 @@
-$def with (data, status)
+$def with (status)
 <!--声音控制界面-->
 <html>
 <head>
@@ -31,10 +31,20 @@ $def with (data, status)
             <div class="weui_text_area">
                 <h2 class="weui_msg_title">声音已打开</h2>
             </div>
-        $else:
+        $elif status==2:
             <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
             <div class="weui_text_area">
                 <h2 class="weui_msg_title">声音已关闭</h2>
+            </div>
+         $elif status==3:
+            <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">等待声音打开</h2>
+            </div>
+        $elif status==4:
+            <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">等待声音关闭</h2>
             </div>
     </div>
 </div>
@@ -43,36 +53,44 @@ $if status==1:
     <div class="button">
         <a href="javascript:close()" class="weui_btn weui_btn_primary">关闭声音</a>
     </div>
-$else:
+$elif status==2:
     <div class="button">
         <a href="javascript:open()" class="weui_btn weui_btn_warn">打开声音</a>
+    </div>
+$else:
+    <div class="button">
+        <a href="javascript:void()" class="weui_btn weui_btn_warn">请等待</a>
     </div>
 <script src="/static/dist/lib/jquery-2.1.4.js"></script>
 <script src="/static/dist/js/jquery-weui.js"></script>
 <script>
 function close(){
-    $$.confirm("确定关闭?",
-    function() {
-        //点击确认后的回调函数
-        <!--alert("y");-->
-        window.location.href="?close";
-    },
-    function() {
-        //点击取消后的回调函数
-        <!--alert("n");-->
-    });
+    $$.confirm(
+        "确定关闭?",
+        function() {
+            //点击确认后的回调函数
+            <!--alert("y");-->
+            window.location.href="?op=close";
+        },
+        function() {
+            //点击取消后的回调函数
+            <!--alert("n");-->
+        }
+    );
 }
 function open(){
-    $$.confirm("打开声音后设备声音将持续不断,电量消耗较大,可能出现电量不足的情况","确认打开声音?",
-    function() {
-        //点击确认后的回调函数
-        <!--alert("y");-->
-        window.location.href="?open";
-    },
-    function() {
-        //点击取消后的回调函数
-        <!--alert("n");-->
-});
+    $$.confirm(
+        "打开声音后设备声音将持续不断,电量消耗较大,可能出现电量不足的情况","确认打开声音?",
+        function() {
+            //点击确认后的回调函数
+            <!--alert("y");-->
+            window.location.href="?op=open";
+        },
+        function() {
+            //点击取消后的回调函数
+            <!--alert("n");-->
+        }
+    );
 }
 
 
