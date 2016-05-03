@@ -28,12 +28,15 @@ class Bind:
         :return:
         '''
         input = web.input(username=None, result=None)
+        username = input.username
+        if not username:  # 检查用户名,如果用户名为空,提示失败
+            return config.render.bindFail()
         result = input.result
-        if result == None:
+        if result == None:  # 如果结果为空,表示进入绑定
             fullurl = web.ctx.homedomain + web.ctx.homepath + web.ctx.fullpath
             data = JSHelper.js_data(fullurl)  # request for js ticket from weixin
             return config.render.bindDevice(data)
-        else:
+        else:  # 如果结果不为空,表示展示绑定结果
             if result == 'success':
                 ''' 绑定成功 '''
                 return config.render.bindSuccess()
