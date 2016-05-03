@@ -1,5 +1,5 @@
+$def with (data)
 <!--绑定设备成功后显示-->
-<!DOCTYPE html>
 <html>
 <head>
     <title>成功</title>
@@ -24,7 +24,7 @@
             <!--<a href="javascript:close();" class="weui_btn weui_btn_default">关闭页面</a>-->
             <script>
                 function goHome(){
-                    window.location.href="/home";
+                    window.location.href="/home?username"=data['username'];
                 }
             </script>
         </p>
