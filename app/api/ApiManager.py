@@ -5,14 +5,15 @@
 '''
 
 import time
-import urllib
 import urllib2
+from common import Common
 
 import sys
 
 sys.path.append("..")
 from home import config
 from const import errors
+from const import orders
 
 Db = config.db  # 数据库操作对象
 
@@ -96,8 +97,8 @@ class ApiManager:
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
         ip = urllib2.urlopen("http://whatismyip.org").read()  # 获取客户端ip
-        Db.insert('t_user_attribute', user_id=u['id'], ip=ip, time=t)
-        return 'success', ''
+        Db.insert('t_user_attribute', user_id=u['id'], ip=ip, time=t)  # 返回ID
+        return 'success', username
 
     def getDeviceInfo(self, username):
         '''
@@ -116,7 +117,7 @@ class ApiManager:
         d = r1[0]  # 取出第一个设备作为当前设备
         res = []  # 返回结果的字典
         res['id'] = d['id']  # 设备ID
-        res['ct'] = d['create_time']  # 生产日期
+        res['ct'] = Common.secToStr(d['create_time'])  # 生产日期
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_device_attribute', what='count(*)', where="device_id=" + d['id'])  # 获取上传次数
@@ -126,8 +127,34 @@ class ApiManager:
         else:
             res['count'] = r2[0]['count(*)']  # 上传次数
             r3 = Db.select('t_device_attribute', where="device_id=" + d['id'], order="time desc", limit=1)  # 获取最后一个记录
-            res['last'] = r3[0]['time']  # 最后一次上传时间
+            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
+
+    def getSoundStatus(self, username):
+        '''
+        用户获取声音状态
+        :param username:
+        :return:
+        '''
+        r = Db.select('t_user', where="wx_name=" + username, limit=1)  # 查看用户是否已绑定
+        if not r:  # 用户还未绑定设备
+            return 'fail', errors.NOT_BIND
+        u = r[0]  # 取出第一个用户为当前用户
+        r1 = Db.select('t_device', where="id=" + u['device_id'], limit=1)  # 获取设备基本信息
+        if not r1:  # 如果设备不存在,则为系统错误
+            return 'fail', errors.ERROR_SYSTEM
+        d = r1[0]  # 取出第一个设备作为当前设备
+        s = d['sound']  # 返回的指令状态
+        '''查看指令队列是否有未执行的指令'''
+        r2 = Db.select('t_order_quene', what="code", where="device_id=" + d['id'] + " and status=1", order="time desc",
+                       limit=1)
+        if not r2:
+            o = r2[0]  # 取出最后的一个指令码
+            if o['code'] == orders.OPEN_SOUND:
+                s = 3  # 等待打开
+            elif o['code'] == orders.CLOSE_SOUND:
+                s = 4  # 等待关闭
+        return 'success', s
 
     def getUserInfo(self, username):
         '''
@@ -142,17 +169,17 @@ class ApiManager:
         u = r[0]  # 取出第一个用户为当前用户
         res = []  # 返回结果的字典
         res['id'] = u['id']  # 用户ID
-        res['bt'] = u['bind_time']  # 绑定时间
+        res['bt'] = Common.secToStr(u['bind_time'])  # 绑定时间
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_user_attribute', what='count(*)', where="user_id=" + u['id'])  # 获取登录次数
         if not r2 or r2[0]['count(*)'] == 0:
             res['count'] = 0  # 登录次数
-            res['last'] = 0  # 最后一次登录时间
+            res['last'] = Common.secToLast(0)  # 最后一次登录时间
         else:
             res['count'] = r2[0]['count(*)']  # 登录次数
             r3 = Db.select('t_user_attribute', where="user_id=" + u['id'], order="time desc", limit=1)  # 获取最后一个记录
-            res['last'] = r3[0]['time']  # 最后一次登录时间
+            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次登录时间
         return 'success', res
 
     def getDeviceLocationInfo(self, username):
@@ -181,7 +208,7 @@ class ApiManager:
             g = r3[0]['gps'].split(',')  # 解析坐标值
             res['lat'] = g[0]  # 经度
             res['lon'] = g[1]  # 纬度
-            res['last'] = r3[0]['time']  # 最后一次上传时间
+            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
 
     def getYesterdayLocationInfos(self, username):
