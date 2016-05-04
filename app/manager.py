@@ -4,6 +4,8 @@
 硬件设备访问 入口文件
 '''
 
+import web
+
 
 class Manager:
     def GET(self):
@@ -11,7 +13,8 @@ class Manager:
         设备访问GET请求
         :return:
         '''
-        return 'hello world'
+        input = web.input(data=None)
+        return 'hello world:' + input.data
 
     def POST(self):
         '''
