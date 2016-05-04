@@ -284,11 +284,13 @@ class ApiManager:
         :return:
         '''
         if not username or not content:
-            return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
-        if not r:  # 用户还未绑定设备
-            return 'fail', errors.NOT_BIND
-        u = r[0]  # 取出第一个用户为当前用户
+            return 'fail', errors.ERROR_PARAM
         t = time.time()  # 当前时间戳
-        Db.insert('t_feedback', user_id=u['id'], content=content, time=t)
+        r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
+        if not r:  # 用户还未绑定设备 此处允许匿名反馈
+            # return 'fail', errors.NOT_BIND
+            Db.insert('t_feedback', user_id=-1, content=content, time=t)
+        else:  # 已登录的用户
+            u = r[0]  # 取出第一个用户为当前用户
+            Db.insert('t_feedback', user_id=u['id'], content=content, time=t)
         return 'success', ''
