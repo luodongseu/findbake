@@ -73,6 +73,10 @@ class Conversation:
                     "PicUrl": "http://9smv.com/static/mm/uploads/150411/2-150411115450247.jpg",
                     "Url": "http://120.27.125.31/home?username=" + username}
 
+        ''' 103 反馈'''
+        if content.startswith('103'):
+            return '================\n反馈成功!\n\n感谢您的支持!\n================'
+
         '''102命令 子菜单2'''
         if content == "201":
             return '================\n常用指令:\n\n301.查看设备信息\n302.查看帐号信息\n303.查看设备当前位置\n================'
