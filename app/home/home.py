@@ -4,7 +4,6 @@
 import web
 import config
 
-# Templates
 import sys
 
 sys.path.append("..")

@@ -8,6 +8,7 @@ sys.path.append(abspath)
 os.chdir(abspath)
  
 from conversation import Conversation
+from manager import Manager
 from home.test import Test
 from home.home import Home
 from home.bind import Bind
@@ -33,7 +34,8 @@ urls = (
     '/feedback','Feedback',
     '/service','Service',
     '/test','Test',
-    '/404','Wrong'
+    '/404','Wrong',
+    '/','Manager'
 )
  
 app_root = os.path.dirname(__file__)
