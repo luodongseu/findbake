@@ -8,6 +8,7 @@ import web
 from weixin import handler as HD
 from api.apiManager import ApiManager
 from api.common import Common
+from const import errors
 import sys
 
 reload(sys)
@@ -79,9 +80,12 @@ class Conversation:
         if content == '301' or "设备" in content:
             status, deviceinfo = ApiManager.getDeviceInfo(username)
             if 'fail' == status:
-                return '================\n错误: ' + deviceinfo + \
-                       '\n提示: <a href="http://120.27.125.31/bind?username="' + \
-                       username + '>点我去绑定</a>\n================'
+                if deviceinfo == errors.NOT_BIND:
+                    return '================\n错误: ' + deviceinfo + \
+                           '\n提示: <a href="http://120.27.125.31/bind?username="' + \
+                           username + '>点我去绑定</a>\n================'
+                else:
+                    return deviceinfo
             else:
                 '''格式化数据后返回'''
                 result = '======设备信息如下=======\n'
@@ -95,7 +99,12 @@ class Conversation:
         if content == '302' or "我" in content or "用户" in content:
             status, userinfo = ApiManager.getUserInfo(username)
             if 'fail' == status:
-                return userinfo
+                if userinfo == errors.NOT_BIND:
+                    return '================\n错误: ' + userinfo + \
+                           '\n提示: <a href="http://120.27.125.31/bind?username="' + \
+                           username + '>点我去绑定</a>\n================'
+                else:
+                    return userinfo
             else:
                 '''格式化数据后返回'''
                 result = '======用户信息如下=======\n'
