@@ -47,7 +47,8 @@ $$(document).on("click", "#show-toast", function() {
             },
             function(data){
                  $$.hideLoading();
-                 $$.toast("反馈成功");
+                 if(data=="success")$$.toast("反馈成功");
+                 else $$.toast(data);
                  $$("#fb").val('');
             },
             "text");//这里返回的类型有：json,html,xml,text
