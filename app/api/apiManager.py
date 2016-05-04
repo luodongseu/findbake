@@ -35,7 +35,7 @@ class ApiManager:
         if not code or not data:
             return 'fail', errors.ERROR_SYSTEM
         t = time.time()  # 当前时间
-        ds = Db.select('t_device', where="code=$code", limit=1)  # 查询当前设备信息
+        ds = Db.select('t_device', where="code=$code", vars=locals(), limit=1)  # 查询当前设备信息
         if ds == None:
             return  # 如果没有设备信息 则跳出
         d = ds[0]  # 第一个数据就是当前设备
@@ -43,13 +43,13 @@ class ApiManager:
         '''
         (2)查询待执行指令
         '''
-        os = Db.select('t_order_quene', where="status=1 and device_id=$d['id']", limit=1)  # 查询当前设备未执行的指令
+        os = Db.select('t_order_quene', where="status=1 and device_id=$d['id']", vars=locals(), limit=1)  # 查询当前设备未执行的指令
         if os == None:
             return ''  # 如果没有指令未执行,则返回空字符串
         r = ''  # 返回的指令字符串
         for o in os:
             r = r + o['code'] + ','  # 拼接指令,以逗号隔开
-        Db.update('t_order_quene', where="device_id=$d['id']", status=2)  # 将队列中所有当前设备的指令全部更新为完成
+        Db.update('t_order_quene', where="device_id=$d['id']", vars=locals(), status=2)  # 将队列中所有当前设备的指令全部更新为完成
         return r
 
     @classmethod
@@ -82,13 +82,13 @@ class ApiManager:
         if not username or not devicecode:
             return 'fail', errors.NOT_BIND
         t = time.time()  # 当前绑定时间
-        r = Db.select('t_device', where="code=$devicecode", limit=1)  # 检查devicecode是否存在
+        r = Db.select('t_device', where="code=$devicecode", vars=locals(), limit=1)  # 检查devicecode是否存在
         if not r:  # 不存在设备code
             return 'fail', errors.NO_DEVICE
         d = r[0]  # 取出第一个设备为当前设备
-        r1 = Db.select('t_user', where="wx_name=$username", limit=1)  # 查询当前用户是否存在
+        r1 = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查询当前用户是否存在
         if r1:  # 用户已经存在了,则更新绑定
-            Db.update('t_user', where="wx_name=$username", device_id=d['id'], bind_time=t)
+            Db.update('t_user', where="wx_name=$username", vars=locals(), device_id=d['id'], bind_time=t)
             return 'success', ''
         else:  # 没有用户信息,则新建用户信息
             Db.insert('t_user', wx_name=username, device_id=d['id'], bind_time=t)
@@ -127,7 +127,7 @@ class ApiManager:
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        r1 = Db.select('t_device', where="id=$u['device_id']", limit=1)  # 获取设备基本信息
+        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
@@ -136,13 +136,14 @@ class ApiManager:
         res['ct'] = Common.secToStr(d['create_time'])  # 生产日期
         res['bs'] = '已绑定'  # 绑定状态
 
-        r2 = Db.select('t_device_attribute', what='count(*)', where="device_id=$d['id']")  # 获取上传次数
+        r2 = Db.select('t_device_attribute', what='count(*)', where="device_id=$d['id']", vars=locals())  # 获取上传次数
         if not r2 or r2[0]['count(*)'] == 0:
             res['count'] = 0  # 上传次数
             res['last'] = 0  # 最后一次上传时间
         else:
             res['count'] = r2[0]['count(*)']  # 上传次数
-            r3 = Db.select('t_device_attribute', where="device_id=$d['id']", order="time desc", limit=1)  # 获取最后一个记录
+            r3 = Db.select('t_device_attribute', where="device_id=$d['id']", vars=locals(), order="time desc",
+                           limit=1)  # 获取最后一个记录
             res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
 
@@ -155,17 +156,18 @@ class ApiManager:
         '''
         if not username:
             return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查看用户是否已绑定
+        r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        r1 = Db.select('t_device', where="id=$u['device_id']", limit=1)  # 获取设备基本信息
+        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         s = d['sound']  # 返回的指令状态
         '''查看指令队列是否有未执行的指令'''
-        r2 = Db.select('t_order_quene', what="code", where="device_id=$d['id'] and status=1", order="time desc",
+        r2 = Db.select('t_order_quene', what="code", where="device_id=$d['id'] and status=1", vars=locals(),
+                       order="time desc",
                        limit=1)
         if not r2:
             o = r2[0]  # 取出最后的一个指令码
@@ -185,7 +187,7 @@ class ApiManager:
         '''
         if not username:
             return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查看用户是否已绑定
+        r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备,即用户未注册账号
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
@@ -194,13 +196,14 @@ class ApiManager:
         res['bt'] = Common.secToStr(u['bind_time'])  # 绑定时间
         res['bs'] = '已绑定'  # 绑定状态
 
-        r2 = Db.select('t_user_attribute', what='count(*)', where="user_id=$u['id']")  # 获取登录次数
+        r2 = Db.select('t_user_attribute', what='count(*)', where="user_id=$u['id']", vars=locals())  # 获取登录次数
         if not r2 or r2[0]['count(*)'] == 0:
             res['count'] = 0  # 登录次数
             res['last'] = Common.secToLast(0)  # 最后一次登录时间
         else:
             res['count'] = r2[0]['count(*)']  # 登录次数
-            r3 = Db.select('t_user_attribute', where="user_id=$u['id']", order="time desc", limit=1)  # 获取最后一个记录
+            r3 = Db.select('t_user_attribute', where="user_id=$u['id']", vars=locals(), order="time desc",
+                           limit=1)  # 获取最后一个记录
             res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次登录时间
         return 'success', res
 
@@ -214,17 +217,18 @@ class ApiManager:
         '''
         if not username:
             return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查看用户是否已绑定
+        r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        r1 = Db.select('t_device', where="id=$u['device_id']", limit=1)  # 获取设备基本信息
+        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         res = []  # 返回结果的字典
         res['id'] = d['id']  # 设备ID
-        r3 = Db.select('t_device_attribute', where="device_id=$d['id']", order="time desc", limit=1)  # 获取最后一个记录
+        r3 = Db.select('t_device_attribute', where="device_id=$d['id']", vars=locals(), order="time desc",
+                       limit=1)  # 获取最后一个记录
         if not r3:  # 返回默认坐标:北京
             res['lat'] = 116  # 经度
             res['lon'] = 40  # 纬度
@@ -246,7 +250,7 @@ class ApiManager:
         '''
         if not username:
             return 'fail', errors.NOT_BIND
-        r = Db.select('t_user', where="wx_name=$username", limit=1)  # 查看用户是否已绑定
+        r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
@@ -256,7 +260,7 @@ class ApiManager:
         t2 = t1 - 86400  # 昨天0点时间戳
         r1 = Db.select('t_device_attribute',
                        what='gps', where="device_id=$u['device_id'] and time>$t2 and time<$t1",
-                       order='time asc', limit=1)  # 获取设备昨日坐标信息
+                       vars=locals(), order='time asc', limit=1)  # 获取设备昨日坐标信息
         if not r1:  # 返回默认坐标:北京
             res[0]['lat'] = 116  # 经度
             res[0]['lon'] = 40  # 纬度
