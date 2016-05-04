@@ -115,5 +115,6 @@ class Conversation:
                 result += '4.登录次数:' + userinfo['count'] + '\n'
                 result += '5.最后一次登录时间:' + Common.secToLast(userinfo['last']) + '\n'
         ''' 其他数据 机器人聊天 '''
-        msg = urllib2.urlopen(urllib2.Request('http://www.xiaodoubi.com/simsimiapi.php?msg=' + content)).read().encode('utf-8')
-        return msg + '\n\n================回复\"菜单\"获取功能列表\n================'
+        msg = urllib2.urlopen(urllib2.Request('http://www.xiaodoubi.com/simsimiapi.php?msg=' + content)).read().encode(
+            'utf-8')
+        return msg + '\n\n================\n回复\"菜单\"获取功能列表\n================'
