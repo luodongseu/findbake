@@ -83,7 +83,7 @@ class Conversation:
                 if deviceinfo == errors.NOT_BIND:
                     return '================\n错误: ' + deviceinfo + \
                            '\n提示: <a href="http://120.27.125.31/bind?username="' + \
-                           username + '>点我去绑定</a>\n================'
+                           username + '">点我去绑定</a>\n================'
                 else:
                     return deviceinfo
             else:
