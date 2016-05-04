@@ -79,7 +79,8 @@ class Conversation:
         if content == '301' or "设备" in content:
             status, deviceinfo = ApiManager.getDeviceInfo(username)
             if 'fail' == status:
-                return deviceinfo
+                return '================\n错误:'
+                deviceinfo + '\n<a href="/bind?username="' + username + '>点我去绑定</a>\n================'
             else:
                 '''格式化数据后返回'''
                 result = '======设备信息如下=======\n'
