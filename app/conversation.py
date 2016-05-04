@@ -14,7 +14,6 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-
 class Conversation:
     def GET(self):
         # get wexin input params
