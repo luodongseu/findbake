@@ -109,7 +109,7 @@ class ApiManager:
         if not r:  # 用户不存在,即未绑定,则跳转绑定
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        ip = urllib2.urlopen("http://whatismyip.org").read()  # 获取客户端ip
+        ip = urllib2.urlopen(urllib2.Request("http://whatismyip.org")).read()  # 获取客户端ip
         Db.insert('t_user_attribute', user_id=u['id'], ip=ip, time=t)  # 返回ID
         return 'success', username
 
