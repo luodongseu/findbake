@@ -272,3 +272,23 @@ class ApiManager:
                 res[i]['lon'] = g1[1]  # 纬度
                 i = i + 1
         return 'success', res
+
+    @classmethod
+    def sendFeedback(self, username, content):
+        '''
+        用户发送用户反馈
+        :param username:
+            微信用户提供的用户名
+        :param content:
+            反馈内容
+        :return:
+        '''
+        if not username or not content:
+            return 'fail', errors.NOT_BIND
+        r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
+        if not r:  # 用户还未绑定设备
+            return 'fail', errors.NOT_BIND
+        u = r[0]  # 取出第一个用户为当前用户
+        t = time.time()  # 当前时间戳
+        Db.insert('t_feedback', user_id=u['id'], content=content, time=t)
+        return 'success', ''
