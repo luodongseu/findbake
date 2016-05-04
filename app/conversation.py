@@ -6,11 +6,13 @@ app 入口文件
 import hashlib
 import web
 from weixin import handler as HD
-from api import ApiManager
+from api.apiManager import ApiManager
+from api.common import Common
 import sys
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
 
 
 class Conversation:
@@ -76,7 +78,7 @@ class Conversation:
 
         '''301命令 查看设备信息'''
         if content == '301' or "设备" in content:
-            status, deviceinfo = ApiManager.ApiManager.getDeviceInfo(username)
+            status, deviceinfo = ApiManager.getDeviceInfo(username)
             if 'fail' == status:
                 return deviceinfo
             else:
@@ -86,11 +88,11 @@ class Conversation:
                 result += '2.生产日期:' + deviceinfo['ct'] + '\n'
                 result += '3.绑定状态:' + deviceinfo['bs'] + '\n'
                 result += '4.信息上传次数:' + deviceinfo['count'] + '\n'
-                result += '5.最后一次上传时间:' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(deviceinfo['last'])) + '\n'
+                result += '5.最后一次上传时间:' + Common.secToLast(deviceinfo['last']) + '\n'
 
         '''302命令 查看用户信息'''
         if content == '302' or "我" in content or "用户" in content:
-            status, userinfo = ApiManager.ApiManager.getUserInfo(username)
+            status, userinfo = ApiManager.getUserInfo(username)
             if 'fail' == status:
                 return userinfo
             else:
@@ -100,6 +102,6 @@ class Conversation:
                 result += '2.绑定时间:' + userinfo['bt'] + '\n'
                 result += '3.绑定状态:' + userinfo['bs'] + '\n'
                 result += '4.登录次数:' + userinfo['count'] + '\n'
-                result += '5.最后一次登录时间:' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(userinfo['last'])) + '\n'
+                result += '5.最后一次登录时间:' + Common.secToLast(userinfo['last']) + '\n'
 
         return 'aa<a href="http://120.27.125.31/bind?username=' + username + '">点击这里体验</a>'
