@@ -61,6 +61,7 @@ class Conversation:
     def text(xml):
         content = xml.Content
         username = xml.FromUserName
+        return username
 
         if content == "菜单":
             return '请回复序号:\n\n101.进入控制台\n201.获取操作命令词'
