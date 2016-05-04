@@ -16,6 +16,8 @@ NOT_BIND = '未绑定设备'
 NO_DEVICE = '设备不存在'
 '''系统故障'''
 ERROR_SYSTEM = '系统故障'
+'''参数错误'''
+ERROR_PARAM = '参数错误'
 # '''未登录'''
 # NOT_LOGINED = 401
 # '''未登录'''
