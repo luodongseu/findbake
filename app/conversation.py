@@ -3,6 +3,7 @@
 app 入口文件
 '''
 
+import urllib2
 import hashlib
 import web
 from weixin import handler as HD
@@ -63,7 +64,7 @@ class Conversation:
         username = xml.FromUserName
 
         if content == "菜单":
-            return '请回复序号:\n\n101.进入控制台\n201.获取操作命令词'
+            return '================请回复序号:\n\n101:进入控制台\n102:获取操作命令词\n103+内容:发送反馈信息\n================'
 
         '''101命令 子菜单1'''
         if content == "101" or "控制" in content or "controll" in content:
@@ -72,9 +73,9 @@ class Conversation:
                     "PicUrl": "http://9smv.com/static/mm/uploads/150411/2-150411115450247.jpg",
                     "Url": "http://120.27.125.31/home?username=" + username}
 
-        '''201命令 子菜单2'''
+        '''102命令 子菜单2'''
         if content == "201":
-            return '常用指令:\n\n301.查看设备信息\n302.查看帐号信息'
+            return '================\n常用指令:\n\n301.查看设备信息\n302.查看帐号信息\n303.查看设备当前位置\n================'
 
         '''301命令 查看设备信息'''
         if content == '301' or "设备" in content:
@@ -88,12 +89,12 @@ class Conversation:
                     return deviceinfo
             else:
                 '''格式化数据后返回'''
-                result = '======设备信息如下=======\n'
+                result = '================\n======设备信息如下=======\n'
                 result += '1.设备ID:' + deviceinfo['id'] + '\n'
                 result += '2.生产日期:' + deviceinfo['ct'] + '\n'
                 result += '3.绑定状态:' + deviceinfo['bs'] + '\n'
                 result += '4.信息上传次数:' + deviceinfo['count'] + '\n'
-                result += '5.最后一次上传时间:' + Common.secToLast(deviceinfo['last']) + '\n'
+                result += '5.最后一次上传时间:' + Common.secToLast(deviceinfo['last']) + '\n================'
 
         '''302命令 查看用户信息'''
         if content == '302' or "我" in content or "用户" in content:
@@ -113,5 +114,6 @@ class Conversation:
                 result += '3.绑定状态:' + userinfo['bs'] + '\n'
                 result += '4.登录次数:' + userinfo['count'] + '\n'
                 result += '5.最后一次登录时间:' + Common.secToLast(userinfo['last']) + '\n'
-
-        return 'aa<a href="http://120.27.125.31/bind?username=' + username + '">点击这里体验</a>'
+        ''' 其他数据 机器人聊天 '''
+        msg = urllib2.urlopen('http://www.xiaodoubi.com/simsimiapi.php?msg=' + content).read().encode('utf-8')
+        return msg + '\n\n================回复\"菜单\"获取功能列表\n================'
