@@ -64,7 +64,7 @@ class Conversation:
         username = xml.FromUserName
 
         if content == "菜单":
-            return '================请回复序号:\n\n101:进入控制台\n102:获取操作命令词\n103+内容:发送反馈信息\n================'
+            return '================\n请回复序号:\n\n101:进入控制台\n102:获取操作命令词\n103+内容:发送反馈信息\n================'
 
         '''101命令 子菜单1'''
         if content == "101" or "控制" in content or "controll" in content:
