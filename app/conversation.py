@@ -75,7 +75,9 @@ class Conversation:
 
         ''' 103 反馈'''
         if content.startswith('103'):
-            ApiManager.sendFeedback(username, content[3:])
+            r, msg = ApiManager.sendFeedback(username, content[3:])
+            if r == 'fail':
+                return '================\nSorry:' + msg + '!\n\n感谢您的支持!\n================'
             return '================\n反馈成功!\n\n感谢您的支持!\n================'
 
         '''102命令 子菜单2'''
