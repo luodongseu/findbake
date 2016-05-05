@@ -36,21 +36,21 @@ class ApiManager:
             return 'fail', errors.ERROR_SYSTEM
         t = time.time()  # 当前时间
         ds = Db.select('t_device', where="code=$code", vars=locals(), limit=1)  # 查询当前设备信息
-        if ds == None:
-            return  # 如果没有设备信息 则跳出
+        if not ds:
+            return 'fail', errors.NO_DEVICE  # 如果没有设备信息 则跳出
         d = ds[0]  # 第一个数据就是当前设备
         Db.insert('t_device_attribute', device_id=d['id'], gps=data.gps, power=data.power, time=t)
         '''
         (2)查询待执行指令
         '''
         os = Db.select('t_order_quene', where="status=1 and device_id=$d['id']", vars=locals(), limit=1)  # 查询当前设备未执行的指令
-        if os == None:
-            return ''  # 如果没有指令未执行,则返回空字符串
+        if not os:
+            return 'success', None  # 如果没有指令未执行,则返回空字符串
         r = ''  # 返回的指令字符串
         for o in os:
             r = r + o['code'] + ','  # 拼接指令,以逗号隔开
         Db.update('t_order_quene', where="device_id=$d['id']", vars=locals(), status=2)  # 将队列中所有当前设备的指令全部更新为完成
-        return r
+        return 'success', r
 
     @classmethod
     def sendOrder(self, deviceid, order):
