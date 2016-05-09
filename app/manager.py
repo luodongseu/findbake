@@ -18,7 +18,7 @@ class Manager:
         data = input.data
         if not data:
             data = 'none data'
-        return 'hello world:' + data
+        return '{$hello world:' + data + '$}'
 
     def POST(self):
         '''
