@@ -15,7 +15,10 @@ class Manager:
         :return:
         '''
         input = web.input(data=None)
-        return 'hello world:' + input.data
+        data = input.data
+        if not data:
+            data = 'none data'
+        return 'hello world:' + data
 
     def POST(self):
         '''
