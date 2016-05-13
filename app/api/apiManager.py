@@ -20,22 +20,35 @@ Db = config.db  # 数据库操作对象
 
 class ApiManager:
     @classmethod
-    def refreshDeviceInfo(self, code, data):
+    def registerDevice(self, ccid, code, qrcodeurl):
+        '''
+        注册设备信息
+        :param code:    设备CCID号
+        :return:
+        '''
+        if not code:
+            return 'fail', errors.ERROR_PARAM
+        t = time.time()  # 当前时间
+        Db.insert('t_device', ccid=ccid, code=code, qr=qrcodeurl, create_time=t)
+        return 'success', ''
+
+    @classmethod
+    def refreshDeviceInfo(self, ccid, data):
         '''
         (1)更新设备信息
 
         :param code:
-            设备号
+            设备CCID号
         :param data:
             gps:latitude longitude
             power: \d
         :调用者: 设备
         :return:
         '''
-        if not code or not data:
-            return 'fail', errors.ERROR_SYSTEM
+        if not ccid or not data:
+            return 'fail', errors.ERROR_PARAM
         t = time.time()  # 当前时间
-        ds = Db.select('t_device', where="code=$code", vars=locals(), limit=1)  # 查询当前设备信息
+        ds = Db.select('t_device', where="ccid=$ccid", vars=locals(), limit=1)  # 查询当前设备信息
         if not ds:
             return 'fail', errors.NO_DEVICE  # 如果没有设备信息 则跳出
         d = ds[0]  # 第一个数据就是当前设备
