@@ -31,9 +31,15 @@ class Manager:
                 'power': '100'
             }
         else:
-            '''记录数据'''
-            lat = input.lat
-            lon = input.lon
+            '''处理数据:格式化坐标数据记录数据'''
+            lat = input.lat  # 经度
+            latd = int(lat[0:2])
+            latf = float(lat[3:])
+            lat = str(latd) + '.' + str(latf / 60)
+            lon = input.lon  # 纬度
+            lond = int(lon[0:1])
+            lonf = float(lon[2:])
+            lon = str(lond) + '.' + str(lonf / 60)
             if not lat:
                 lat = '-1'
             if not lon:
