@@ -45,7 +45,10 @@ class Manager:
             }
         r, m = ApiManager.refreshDeviceInfo(ccid, d)
         if r == 'success':  # 执行成功
-            return '{201:' + m + '}'  # 返回格式:{201:order,order...}
+            if not m:
+                return '{200}'
+            else:
+                return '{201:' + m + '}'  # 返回格式:{201:order,order...}
         else:  # 执行失败
             if m == errors.NO_DEVICE:  # 错误原因:没有设备
                 '''插入设备,并在线生成二维码'''
@@ -64,7 +67,7 @@ class Manager:
                 ApiManager.registerDevice(ccid, code, qrurl)
             else:
                 return '{403}'  # 刷新失败,未知错误原因
-        return '{200:}'
+        return '{200}'
 
     def POST(self):
         '''
