@@ -50,7 +50,7 @@ class Manager:
             if m == errors.NO_DEVICE:  # 错误原因:没有设备
                 '''插入设备,并在线生成二维码'''
                 t = time.time()  # 当前时间
-                code = 'FB_D_N' + t  # 设备编号
+                code = 'FB_D_N' + str(t)  # 设备编号
                 '''二维码 基于百度API'''
                 url = 'http://apis.baidu.com/3023/qr/qrcode?size=12&qr=' + code
                 req = urllib2.Request(url)
