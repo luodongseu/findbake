@@ -247,10 +247,22 @@ class ApiManager:
             res['lon'] = 40  # 纬度
             res['last'] = 0  # 最后一次上传时间
         else:
-            g = r3[0]['gps'].split(',')  # 解析坐标值
-            res['lat'] = g[0]  # 经度
-            res['lon'] = g[1]  # 纬度
-            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
+            gps = r3[0]['gps']
+            if gps == '-1,-1':  # 位置定位失败,则重新获取
+                res['e'] = 1  # 错误标识
+                '''重新获取'''
+                r3 = Db.select('t_device_attribute', where="device_id=$d['id'] and gps!='-1,-1'", vars=locals(),
+                           order="time desc", limit=1)  # 获取最后一个记录
+            if not r3:
+                res['lat'] = 116  # 经度
+                res['lon'] = 40  # 纬度
+                res['last'] = 0  # 最后一次上传时间
+            else:
+                gps = r3[0]['gps']
+                g = gps.split(',')  # 解析坐标值
+                res['lat'] = g[0]  # 经度
+                res['lon'] = g[1]  # 纬度
+                res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
 
     @classmethod
