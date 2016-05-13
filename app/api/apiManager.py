@@ -52,7 +52,7 @@ class ApiManager:
         if not ds:
             return 'fail', errors.NO_DEVICE  # 如果没有设备信息 则跳出
         d = ds[0]  # 第一个数据就是当前设备
-        Db.insert('t_device_attribute', device_id=d['id'], gps=data.gps, power=data.power, time=t)
+        Db.insert('t_device_attribute', device_id=d['id'], gps=data['gps'], power=data['power'], time=t)
         '''
         (2)查询待执行指令
         '''
