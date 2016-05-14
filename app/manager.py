@@ -19,9 +19,10 @@ class Manager:
         设备访问GET请求
         :return:
         '''
-        return '{201:S_C}'
+
         input = web.input(data=None, lat=None, lon=None, ccid=None)
         data = input.data  # 数据类型 -1/0/1...
+        return '{'+data+'}'
         ccid = input.ccid  # 设备号
         if not ccid:
             return '{401}'  # 参数不全
