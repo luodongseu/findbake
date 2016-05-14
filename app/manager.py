@@ -19,7 +19,7 @@ class Manager:
         设备访问GET请求
         :return:
         '''
-
+        return '{201:S_O}'
         input = web.input(data=None, lat=None, lon=None, ccid=None)
         data = input.data  # 数据类型 -1/0/1...
         # return '{'+data+'}'
