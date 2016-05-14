@@ -21,9 +21,10 @@ class Manager:
         '''
 
         input = web.input(data=None, lat=None, lon=None, ccid=None)
-        data = input.ccid  # 数据类型 -1/0/1...
-        return '{'+data+'}'
+        data = input.data  # 数据类型 -1/0/1...
+        # return '{'+data+'}'
         ccid = input.ccid  # 设备号
+        # return '{'+ccid+'}'
         if not ccid:
             return '{401}'  # 参数不全
         if data != 1:
