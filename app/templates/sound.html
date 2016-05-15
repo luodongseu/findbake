@@ -67,6 +67,10 @@ $else:
 <script src="/static/dist/lib/jquery-2.1.4.js"></script>
 <script src="/static/dist/js/jquery-weui.js"></script>
 <script>
+function getTime() {
+    var date = new Date();
+    return date.getHours()+" : "+(date.getMinutes())+" : "+date.getSeconds();
+}
 
 $$(document).ready(function(){
     $$("#time").text(getTime());
