@@ -310,7 +310,7 @@ class ApiManager:
                 res_d['lat'] = g1[0]  # 经度
                 res_d['lon'] = g1[1]  # 纬度
                 res.append(res_d)
-        return 'success', res
+        return 'success', r1
 
     @classmethod
     def sendFeedback(self, username, content):
