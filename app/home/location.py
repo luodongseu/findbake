@@ -26,7 +26,8 @@ class Location:
         r, data = ApiManager.getDeviceLocationInfo(username)  # 获取设备定位信息
         if r == 'fail':  # 获取设备信息失败
             if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页
-                return web.redirect('/bind?username=' + username)
+                url = '/bind?username=' + username
+                return web.redirect(url)
             else:  # 否则进入404
                 return web.redirect('/404')
         return config.render.location(data)
