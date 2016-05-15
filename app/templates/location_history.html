@@ -41,21 +41,19 @@ AMap.plugin(['AMap.Scale'],function(){
 //初始化线路
 var lineArr = new Array();
 $for p in data:
-    var line = new Array();
-    line[0] = $p['lat'];
-    line[1] = $p['lon'];
-    lineArray.push(line);
+    lineArray.push(new AMap.LngLat($p['lat'],$p['lon']));
 
 var polyline = new AMap.Polyline({
+    map:map,
     path:lineArr,          //设置线覆盖物路径
     strokeColor:"#3366FF", //线颜色
     strokeOpacity: 1,       //线透明度
     strokeWeight: 5,        //线宽
-    strokeStyle: "solid",   //线样式
-    strokeDasharray: [10, 5] //补充线样式
+    strokeStyle: "solid"   //线样式
+    //strokeDasharray: [10, 5] //补充线样式
 });
 
-polyline.setMap(map);
+//polyline.setMap(map);
 
 </script>
 </body>
