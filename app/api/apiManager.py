@@ -236,14 +236,14 @@ class ApiManager:
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        r1 = Db.select('t_device', where="id=$u.device_id", vars=locals(), limit=1)  # 获取设备基本信息
+        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         res = dict()  # 返回结果的字典
         res['id'] = d['id']  # 设备ID
 
-        r3 = Db.select('t_device_attribute', where="device_id=$d.id", vars=locals(), order="time desc",
+        r3 = Db.select('t_device_attribute', where="device_id=$d['id'] and gps!='-1,-1'", vars=locals(), order="time desc",
                        limit=1)  # 获取最后一个记录
         if not r3:  # 返回默认坐标:北京
             res['lat'] = 0  # 经度
@@ -251,21 +251,10 @@ class ApiManager:
             res['last'] = 0  # 最后一次上传时间
         else:
             gps = r3[0]['gps']
-            if gps == '-1,-1':  # 位置定位失败,则重新获取
-                res['e'] = 1  # 错误标识
-                '''重新获取'''
-                r3 = Db.select('t_device_attribute', where="device_id=$d.id and gps!='-1,-1'", vars=locals(),
-                               order="time desc", limit=1)  # 获取最后一个记录
-            if not r3:
-                res['lat'] = 0  # 经度
-                res['lon'] = 0  # 纬度
-                res['last'] = 0  # 最后一次上传时间
-            else:
-                gps = r3[0]['gps']
-                g = gps.split(',')  # 解析坐标值
-                res['lat'] = g[0]  # 经度
-                res['lon'] = g[1]  # 纬度
-                res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
+            g = gps.split(',')  # 解析坐标值
+            res['lat'] = g[0]  # 经度
+            res['lon'] = g[1]  # 纬度
+            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
 
     @classmethod
