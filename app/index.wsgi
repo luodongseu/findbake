@@ -63,7 +63,7 @@ class Wrong:
 
 app = web.application(urls, globals())
 session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': 'LD'})
-#web.config._session = session
+# web.config._session = session
 
 def session_hook():
     web.ctx.session = session

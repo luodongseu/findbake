@@ -18,9 +18,9 @@ class Location:
         静态查看定位信息
         :return:
         '''
-        r, username = Common.getLoginUsername()  # 获得登录用户名
-        if r == 'n':  # 不存在则返回重定向
-            return username
+        username = Common.getLoginUsername()  # 获得登录用户名
+        if not username:  # 不存在则返回重定向
+            return web.redirect('/404')
 
         input = web.input()
         if 'yesterday' in input.keys():

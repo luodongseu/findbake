@@ -17,7 +17,7 @@ class Common:
         '''
 
         try:
-            session = web.config._session  # web.ctx.session
+            session = web.ctx.session  # web.ctx.session
             username = session.username
             if not username:
                 return 'n', web.redirect('/home?username=' + name)
@@ -32,17 +32,11 @@ class Common:
         获取登录的用户名
         :return 登录用户名:
         '''
-        # r, d = self.islogin('')
-        # if r == 'y':
-        #     return d
-        # else:
-        #     return None
-        if web.ctx.session.username:
-            return 'web.ctx'
-        elif web.config._session.username:
-            return 'web.config'
+        r, d = self.islogin('')
+        if r == 'y':
+            return d
         else:
-            return 'no'
+            return None
 
     @classmethod
     def addsession(self, username):
@@ -52,7 +46,7 @@ class Common:
         :return:
         '''
         try:
-            session = web.config._session
+            session = web.ctx.session
             session.username = username
         except Exception as e:
             return 'fail'
