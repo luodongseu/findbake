@@ -300,17 +300,14 @@ class ApiManager:
             res_d['lon'] = 0  # 纬度
             res.append(res_d)
         else:  # 返回坐标集合
-            for x in r1_e:
-                r1.append(x)
-
-            for g in r1:  # 遍历结果集
+            for g in r1_e:  # 遍历结果集
                 if g['gps'] == '-1,-1':
                     continue
                 g1 = g['gps'].split(',')  # 解析坐标值
                 res_d['lat'] = g1[0]  # 经度
                 res_d['lon'] = g1[1]  # 纬度
                 res.append(res_d)
-        return 'success', r1
+        return 'success', res
 
     @classmethod
     def sendFeedback(self, username, content):
