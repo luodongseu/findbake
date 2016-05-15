@@ -216,7 +216,7 @@ class ApiManager:
             res['count'] = 0  # 登录次数
             res['last'] = Common.secToLast(0)  # 最后一次登录时间
         else:
-            res['count'] = r2[0][0]  # 登录次数
+            res['count'] = r2[0]['count(*)']  # 登录次数
             r3 = Db.select('t_user_attribute', where="user_id=$u['id']", vars=locals(), order="time desc",
                            limit=1)  # 获取最后一个记录
             res['last'] = Common.secToLast(r3[0].time)  # 最后一次登录时间
