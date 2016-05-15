@@ -294,7 +294,7 @@ class ApiManager:
         r1_e = Db.select('t_device_attribute',
                        what='gps', where="device_id=$u['device_id'] and time>$t2 and time<$t1",
                        vars=locals(), order='time asc')  # 获取设备昨日坐标信息
-        return 'success',r1_e
+        return 'success',r1_e[0]
         r1 = []
         if not r1_e:  # 返回默认坐标:0,0
             res_d['lat'] = 0  # 经度
