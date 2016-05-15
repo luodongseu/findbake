@@ -286,7 +286,8 @@ class ApiManager:
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        res = dict()  # 返回结果的字典
+        res_d = dict()
+        res = []  # 返回结果的字典
         t = time.time()  # 当前时间戳
         t1 = t - t % 86400  # 当天0点时间戳
         t2 = t1 - 86400  # 昨天0点时间戳
@@ -294,21 +295,21 @@ class ApiManager:
                        what='gps', where="device_id=$u.device_id and time>$t2 and time<$t1",
                        vars=locals(), order='time asc')  # 获取设备昨日坐标信息
         r1 = []
-        if not r1:  # 返回默认坐标:北京
-            res[0]['lat'] = 0  # 经度
-            res[0]['lon'] = 0  # 纬度
+        if not r1:  # 返回默认坐标:0,0
+            res_d['lat'] = 0  # 经度
+            res_d['lon'] = 0  # 纬度
+            res.append(res_d)
         else:  # 返回坐标集合
             for x in r1_e:
                 r1.append(x)
 
-            i = 0  # 索引变量
             for g in r1:  # 遍历结果集
                 if g['gps'] == '-1,-1':
                     continue
                 g1 = g['gps'].split(',')  # 解析坐标值
-                res[i]['lat'] = g1[0]  # 经度
-                res[i]['lon'] = g1[1]  # 纬度
-                i = i + 1
+                res_d['lat'] = g1[0]  # 经度
+                res_d['lon'] = g1[1]  # 纬度
+                res.append(res_d)
         return 'success', res
 
     @classmethod
