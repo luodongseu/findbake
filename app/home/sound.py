@@ -41,5 +41,5 @@ class Sound:
             else:
                 '''指令错误'''
                 return web.redirect('/404')
-        r, status = ApiManager.getSoundStatus(username)
-        return config.render.sound(status)
+        r, status, time = ApiManager.getSoundStatus(username)
+        return config.render.sound(status, time)
