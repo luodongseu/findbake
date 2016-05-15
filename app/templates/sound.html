@@ -70,7 +70,21 @@ function close(){
         function() {
             //点击确认后的回调函数
             <!--alert("y");-->
-            window.location.replace("?op=close");
+            //window.location.replace("?op=close");
+            //$$.showLoading();
+            $$.get("#",
+                {
+                    op:close
+                },
+                function(data){
+                     //$$.hideLoading();
+                     <!--if(data=="success")$$.toast("反馈成功");-->
+                     <!--else $$.toast(data);-->
+                     <!--$$("#fb").val('');-->
+                     window.location.reload()
+                },
+                "text");//这里返回的类型有：json,html,xml,text
+            });
         },
         function() {
             //点击取消后的回调函数
@@ -84,7 +98,20 @@ function open(){
         function() {
             //点击确认后的回调函数
             <!--alert("y");-->
-            window.location.replace("?op=open");
+            //window.location.replace("?op=open");
+            $$.get("#",
+                {
+                    op:open
+                },
+                function(data){
+                     //$$.hideLoading();
+                     <!--if(data=="success")$$.toast("反馈成功");-->
+                     <!--else $$.toast(data);-->
+                     <!--$$("#fb").val('');-->
+                     window.location.reload()
+                },
+                "text");//这里返回的类型有：json,html,xml,text
+            });
         },
         function() {
             //点击取消后的回调函数
@@ -92,8 +119,25 @@ function open(){
         }
     );
 }
+
+function refresh(){
+    $$.get("#",
+                {
+                    op:close
+                },
+                function(data){
+                     //$$.hideLoading();
+                     <!--if(data=="success")$$.toast("反馈成功");-->
+                     <!--else $$.toast(data);-->
+                     <!--$$("#fb").val('');-->
+                     window.location.reload()
+                },
+                "text");//这里返回的类型有：json,html,xml,text
+            });
+}
+
 $if status==3 or status==4:
-    setTimeout("window.location.reload()",1000); //指定1秒刷新一次
+    setTimeout("refresh()",1000); //指定1秒刷新一次
 </script>
 </body>
 </html>
