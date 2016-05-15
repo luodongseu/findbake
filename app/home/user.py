@@ -19,9 +19,9 @@ class User:
         :return:
         '''
 
-        r, username = Common.getLoginUsername()  # 获得登录用户名
-        if r == 'n':  # 不存在则返回重定向
-            return username
+        username = Common.getLoginUsername()  # 获得登录用户名
+        # if r == 'n':  # 不存在则返回重定向
+        #     return username
         return username
         # r, data = ApiManager.getUserInfo(username)  # 获取设备信息
         # if r == 'fail':  # 获取设备信息失败
