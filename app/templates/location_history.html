@@ -38,10 +38,11 @@ AMap.plugin(['AMap.Scale'],function(){
     map.addControl(scale);
 })
 
-var lineArr = [
+$arr = []
 $for p in data:
-    [$p['lon'],$p['lat']],
-];
+    $arr.append('['+$p['lon']+','+'$p['lat']+']')
+var lineArr = $arr;
+
 
 var polyline = new AMap.Polyline({
     path:lineArr,          //设置线覆盖物路径
