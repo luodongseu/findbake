@@ -147,8 +147,8 @@ class ApiManager:
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         res = dict()  # 返回结果的字典
-        res['id'] = d.id  # 设备ID
-        res['ct'] = Common.secToStr(d.create_time)  # 生产日期
+        res['id'] = d['id']  # 设备ID
+        res['ct'] = Common.secToStr(d['create_time'])  # 生产日期
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_device_attribute', what='count(*)', where="device_id=$d['id']", vars=locals())  # 获取上传次数
@@ -179,7 +179,7 @@ class ApiManager:
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
-        s = d.sound  # 返回的指令状态
+        s = d['sound']  # 返回的指令状态
         '''查看指令队列是否有未执行的指令'''
         r2 = Db.select('t_order_quene', what="code", where="device_id=$d['id'] and status=1", vars=locals(),
                        order="time desc",
@@ -207,8 +207,8 @@ class ApiManager:
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
         res = dict()  # 返回结果的字典
-        res['id'] = u.id  # 用户ID
-        res['bt'] = Common.secToStr(u.bind_time)  # 绑定时间
+        res['id'] = u['id']  # 用户ID
+        res['bt'] = Common.secToStr(u['bind_time'])  # 绑定时间
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_user_attribute', what='count(*)', where="user_id=$u['id']", vars=locals())  # 获取登录次数
@@ -241,20 +241,16 @@ class ApiManager:
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         res = dict()  # 返回结果的字典
-        res['id'] = d.id  # 设备ID
+        res['id'] = d['id']  # 设备ID
 
-        r3_e = Db.select('t_device_attribute', where="device_id=$d.id", vars=locals(), order="time desc",
+        r3 = Db.select('t_device_attribute', where="device_id=$d.id", vars=locals(), order="time desc",
                        limit=1)  # 获取最后一个记录
-        r3 = []
-        if not r3_e:  # 返回默认坐标:北京
+        if not r3:  # 返回默认坐标:北京
             res['lat'] = 0  # 经度
             res['lon'] = 0  # 纬度
             res['last'] = 0  # 最后一次上传时间
         else:
-            for x in r3_e:
-                r3.append(x)
-
-            gps = r3[0].gps
+            gps = r3[0]['gps']
             if gps == '-1,-1':  # 位置定位失败,则重新获取
                 res['e'] = 1  # 错误标识
                 '''重新获取'''
