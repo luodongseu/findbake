@@ -18,16 +18,15 @@ class User:
         静态查看用户基本信息
         :return:
         '''
-        username = Common.getLoginUsername()  # 获得登录用户名
-        if not username:
-            return 'No User'
-        data = username
-        return config.render.test(data)
-        # r, data = ApiManager.getUserInfo(username)  # 获取设备信息
-        # if r == 'fail':  # 获取设备信息失败
-        #     if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页
-        #         url = '/bind?username=' + username
-        #         return web.redirect(url)
-        #     else:  # 否则进入404
-        #         return web.redirect('/404')
-        # return config.render.user(data)
+
+        r, username = Common.getLoginUsername()  # 获得登录用户名
+        if r == 'n':  # 不存在则返回重定向
+            return username
+
+        r, data = ApiManager.getUserInfo(username)  # 获取设备信息
+        if r == 'fail':  # 获取设备信息失败
+            if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页
+                return web.redirect('/bind?username=' + username)
+            else:  # 否则进入404
+                return web.redirect('/404')
+        return config.render.user(data)

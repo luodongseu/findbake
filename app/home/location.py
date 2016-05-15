@@ -18,7 +18,10 @@ class Location:
         静态查看定位信息
         :return:
         '''
-        username = Common.getLoginUsername()  # 获得登录用户名
+        r, username = Common.getLoginUsername()  # 获得登录用户名
+        if r == 'n':  # 不存在则返回重定向
+            return username
+
         input = web.input()
         if 'yesterday' in input.keys():
             data = ApiManager.getYesterdayLocationInfos(username)

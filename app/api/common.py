@@ -9,7 +9,6 @@ import time
 
 
 class Common:
-
     @classmethod
     def islogin(self, name):
         '''
@@ -21,11 +20,11 @@ class Common:
             session = web.ctx.session
             username = session.username
             if not username:
-                return web.redirect('/home?username=' + name)
+                return 'n', web.redirect('/home?username=' + name)
             else:
-                return username
+                return 'y', username
         except Exception as e:
-            return web.redirect('/home?username=' + name)
+            return 'n', web.redirect('/home?username=' + name)
 
     @classmethod
     def getLoginUsername(self):

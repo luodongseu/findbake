@@ -18,7 +18,10 @@ class Device:
         静态查看设备信息
         :return:
         '''
-        username = Common.getLoginUsername()  # 获得登录用户名
+        r, username = Common.getLoginUsername()  # 获得登录用户名
+        if r == 'n':  # 不存在则返回重定向
+            return username
+
         r, data = ApiManager.getDeviceInfo(username)  # 获取设备信息
         if r == 'fail':  # 获取设备信息失败
             if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页

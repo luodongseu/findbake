@@ -18,7 +18,9 @@ from api.apiManager import ApiManager
 class Bind:
     def GET(self):
         '''
-        解析步骤:
+        解析步骤:r, username = Common.getLoginUsername()  # 获得登录用户名
+        if r == 'n':  # 不存在则返回重定向
+            return username
         1.获取参数username
         2.从数据库中判断username是否绑定了设备
         3.如果未绑定进入4,绑定了进入5
