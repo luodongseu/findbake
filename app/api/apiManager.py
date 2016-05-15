@@ -146,7 +146,7 @@ class ApiManager:
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
-        res = []  # 返回结果的字典
+        res = dict()  # 返回结果的字典
         res['id'] = d.id  # 设备ID
         res['ct'] = Common.secToStr(d.create_time)  # 生产日期
         res['bs'] = '已绑定'  # 绑定状态
@@ -206,7 +206,7 @@ class ApiManager:
         if not r:  # 用户还未绑定设备,即用户未注册账号
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        res = []  # 返回结果的字典
+        res = dict()  # 返回结果的字典
         res['id'] = u.id  # 用户ID
         res['bt'] = Common.secToStr(u.bind_time)  # 绑定时间
         res['bs'] = '已绑定'  # 绑定状态
@@ -240,7 +240,7 @@ class ApiManager:
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
-        res = []  # 返回结果的字典
+        res = dict()  # 返回结果的字典
         res['id'] = d.id  # 设备ID
         r3 = Db.select('t_device_attribute', where="device_id=$d.id", vars=locals(), order="time desc",
                        limit=1)  # 获取最后一个记录
@@ -281,7 +281,7 @@ class ApiManager:
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        res = []  # 返回结果的字典
+        res = dict()  # 返回结果的字典
         t = time.time()  # 当前时间戳
         t1 = t - t % 86400  # 当天0点时间戳
         t2 = t1 - 86400  # 昨天0点时间戳
