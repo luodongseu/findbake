@@ -61,9 +61,9 @@ class Wrong:
 # session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
 #
 
-app = web.application(urls, locals())
+app = web.application(urls, globals())
 session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': 'LD'})
-web.config._session = session
+#web.config._session = session
 
 def session_hook():
     web.ctx.session = session
@@ -71,7 +71,4 @@ app.add_processor(web.loadhook(session_hook))
 
 #application = sae.create_wsgi_app(app)
 
-if __name__ == "__main__":
-    app.run()
-app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()
