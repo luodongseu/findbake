@@ -27,7 +27,7 @@ class Location:
         if r == 'fail':  # 获取设备信息失败
             if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页
                 url = '/bind?username=' + username
-                return web.redirect(url)
+                return web.seeother(url)
             else:  # 否则进入404
-                return web.redirect('/404')
+                return web.seeother('/404')
         return config.render.location(data)
