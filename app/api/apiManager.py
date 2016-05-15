@@ -61,7 +61,12 @@ class ApiManager:
             return 'success', None  # 如果没有指令未执行,则返回空字符串
         r = ''  # 返回的指令字符串
         for o in os:
-            r = r + o.code + ','  # 拼接指令,以逗号隔开
+            code = o.code
+            if code == errors.OPEN_SOUND:  # 打开声音
+                Db.update('t_device', where="device_id=$d['id']", vars=locals(), sound=2)
+            else:  # 关闭声音
+                Db.update('t_device', where="device_id=$d['id']", vars=locals(), sound=1)
+            r = r + code + ','  # 拼接指令,以逗号隔开
         Db.update('t_order_quene', where="device_id=$d['id']", vars=locals(), status=2)  # 将队列中所有当前设备的指令全部更新为完成
         return 'success', r
 
@@ -175,14 +180,14 @@ class ApiManager:
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        r1 = Db.select('t_device_attribute', where="device_id=$u['device_id']", vars=locals(), order="time desc",
+        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), order="time desc",
                        limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         s = d['sound']  # 返回的指令状态
         '''查看指令队列是否有未执行的指令'''
-        r2 = Db.select('t_order_quene', what="code", where="device_id=$d['device_id'] and status=1", vars=locals(),
+        r2 = Db.select('t_order_quene', what="code", where="device_id=$d['id'] and status=1", vars=locals(),
                        order="time desc", limit=1)
         if r2:
             order = r2[0]  # 取出最后的一个指令码
@@ -243,7 +248,8 @@ class ApiManager:
         res = dict()  # 返回结果的字典
         res['id'] = d['id']  # 设备ID
 
-        r3 = Db.select('t_device_attribute', where="device_id=$d['id'] and gps!='-1,-1'", vars=locals(), order="time desc",
+        r3 = Db.select('t_device_attribute', where="device_id=$d['id'] and gps!='-1,-1'", vars=locals(),
+                       order="time desc",
                        limit=1)  # 获取最后一个记录
         if not r3:  # 返回默认坐标:北京
             res['lat'] = 0  # 经度
