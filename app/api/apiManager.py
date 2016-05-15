@@ -6,6 +6,7 @@
 
 import time
 import urllib2
+import re
 from common import Common
 
 import sys
@@ -122,8 +123,8 @@ class ApiManager:
         if not r:  # 用户不存在,即未绑定,则跳转绑定
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        ip = urllib2.urlopen(urllib2.Request("http://whatismyip.org")).read().search('d+.d+.d+.d+', str).group(
-            0)  # 获取客户端ip
+        ip = urllib2.urlopen(urllib2.Request("http://whatismyip.org")).read()
+        ip = re.search('d+.d+.d+.d+', ip).group(0)  # 获取客户端ip
         if not ip:
             ip = '0.0.0.0'
         Db.insert('t_user_attribute', user_id=u['id'], ip=ip, time=t)  # 返回ID
