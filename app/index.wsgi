@@ -48,7 +48,7 @@ class Wrong:
         """ Show 404 page """
         return render.f()
 
-app = web.application(urls, globals())
+
 
 #在应用处理器中加入session
 #if web.config.get("_session") is None:
@@ -61,6 +61,7 @@ app = web.application(urls, globals())
 # session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
 #
 
+app = web.application(urls, locals())
 session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': 'LD'})
 web.config._session = session
 
