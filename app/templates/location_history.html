@@ -38,15 +38,11 @@ AMap.plugin(['AMap.Scale'],function(){
     map.addControl(scale);
 })
 
-<!--[116.480983, 39.989628],-->
-<!--[116.482122, 39.961176],-->
-<!--[116.422122, 39.921176],-->
-<!--[116.402122, 39.911176],-->
-<!--[116.382122, 39.901176],-->
 var lineArr = [
-    $for p in data:
-        [$p['lon'],$p['lat']],
+$for p in data:
+    [$p['lon'],$p['lat']],
 ];
+
 var polyline = new AMap.Polyline({
     path:lineArr,          //设置线覆盖物路径
     strokeColor:"#3366FF", //线颜色
@@ -55,6 +51,7 @@ var polyline = new AMap.Polyline({
     strokeStyle: "solid",   //线样式
     strokeDasharray: [10, 5] //补充线样式
 });
+
 polyline.setMap(map);
 
 </script>
