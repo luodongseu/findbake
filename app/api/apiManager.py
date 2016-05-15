@@ -250,11 +250,12 @@ class ApiManager:
             res['lon'] = 0  # 纬度
             res['last'] = 0  # 最后一次上传时间
         else:
-            gps = r3[0]['gps']
+            l = r3[0]
+            gps = l['gps']
             g = gps.split(',')  # 解析坐标值
             res['lat'] = g[0]  # 经度
             res['lon'] = g[1]  # 纬度
-            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
+            res['last'] = Common.secToLast(l['time'])  # 最后一次上传时间
         return 'success', res
 
     @classmethod
