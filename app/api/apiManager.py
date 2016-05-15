@@ -62,7 +62,7 @@ class ApiManager:
         r = ''  # 返回的指令字符串
         for o in os:
             code = o.code
-            if code == errors.OPEN_SOUND:  # 打开声音
+            if code == orders.OPEN_SOUND:  # 打开声音
                 Db.update('t_device', where="device_id=$d['id']", vars=locals(), sound=2)
             else:  # 关闭声音
                 Db.update('t_device', where="device_id=$d['id']", vars=locals(), sound=1)
