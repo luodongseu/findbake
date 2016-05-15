@@ -18,7 +18,7 @@ $def with (data)
     </style>
 </head>
 <body ontouchstart>
-$if data['e']:
+$if 'e' in data:
     <p class="demos-title">当前位置不可用<br>显示最近一次定位信息</p>
 <p class="demos-sub-title">更新时间&nbsp;&nbsp;<span id="time"></span></p>
 <div id="container"></div>
