@@ -63,9 +63,9 @@ class ApiManager:
         for o in os:
             code = o.code
             if code == orders.OPEN_SOUND:  # 打开声音
-                Db.update('t_device', where="device_id=$d['id']", vars=locals(), sound=2)
+                Db.update('t_device', where="id=$d['id']", vars=locals(), sound=2)
             else:  # 关闭声音
-                Db.update('t_device', where="device_id=$d['id']", vars=locals(), sound=1)
+                Db.update('t_device', where="id=$d['id']", vars=locals(), sound=1)
             r = r + code + ','  # 拼接指令,以逗号隔开
         Db.update('t_order_quene', where="device_id=$d['id']", vars=locals(), status=2)  # 将队列中所有当前设备的指令全部更新为完成
         return 'success', r
