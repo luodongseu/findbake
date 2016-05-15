@@ -247,8 +247,8 @@ class ApiManager:
                        limit=1)  # 获取最后一个记录
         r3 = []
         if not r3:  # 返回默认坐标:北京
-            res['lat'] = 116  # 经度
-            res['lon'] = 40  # 纬度
+            res['lat'] = 0  # 经度
+            res['lon'] = 0  # 纬度
             res['last'] = 0  # 最后一次上传时间
         else:
             for x in r3_e:
