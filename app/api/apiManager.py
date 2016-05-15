@@ -292,7 +292,7 @@ class ApiManager:
         t1 = t - t % 86400  # 当天0点时间戳
         t2 = t1 - 86400  # 昨天0点时间戳
         r1_e = Db.select('t_device_attribute',
-                       what='gps', where="device_id=$u.device_id and time>$t2 and time<$t1",
+                       what='gps', where="device_id=$u['device_id'] and time>$t2 and time<$t1",
                        vars=locals(), order='time asc')  # 获取设备昨日坐标信息
         r1 = []
         if not r1_e:  # 返回默认坐标:0,0
