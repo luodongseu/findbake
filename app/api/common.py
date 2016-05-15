@@ -17,7 +17,7 @@ class Common:
         '''
 
         try:
-            session = web.ctx.session
+            session = web.config._session  # web.ctx.session
             username = session.username
             if not username:
                 return 'n', web.redirect('/home?username=' + name)
