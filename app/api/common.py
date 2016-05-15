@@ -58,7 +58,7 @@ class Common:
         :param sec:
         :return:
         '''
-        return time.strftime("%Y年%m月%d日% H:%M:%S", time.localtime(sec))
+        return time.strftime("%Y年%m月%d日 %H:%M:%S", time.localtime(sec))
 
     @classmethod
     def secToLast(self, sec):
