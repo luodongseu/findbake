@@ -152,7 +152,7 @@ class ApiManager:
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_device_attribute', what='count(*)', where="device_id=$d['id']", vars=locals())  # 获取上传次数
-        if not r2 or r2[0]['count(*)'] == 0:
+        if not r2:
             res['count'] = 0  # 上传次数
             res['last'] = 0  # 最后一次上传时间
         else:
