@@ -5,7 +5,7 @@
 '''
 
 import time
-import web
+import
 from common import Common
 
 import sys
@@ -61,7 +61,7 @@ class ApiManager:
             return 'success', None  # 如果没有指令未执行,则返回空字符串
         r = ''  # 返回的指令字符串
         for o in os:
-            r = r + o['code'] + ','  # 拼接指令,以逗号隔开
+            r = r + o.code + ','  # 拼接指令,以逗号隔开
         Db.update('t_order_quene', where="device_id=$d['id']", vars=locals(), status=2)  # 将队列中所有当前设备的指令全部更新为完成
         return 'success', r
 
@@ -147,8 +147,8 @@ class ApiManager:
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         res = []  # 返回结果的字典
-        res['id'] = d['id']  # 设备ID
-        res['ct'] = Common.secToStr(d['create_time'])  # 生产日期
+        res['id'] = d.id  # 设备ID
+        res['ct'] = Common.secToStr(d.create_time)  # 生产日期
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_device_attribute', what='count(*)', where="device_id=$d['id']", vars=locals())  # 获取上传次数
@@ -156,10 +156,10 @@ class ApiManager:
             res['count'] = 0  # 上传次数
             res['last'] = 0  # 最后一次上传时间
         else:
-            res['count'] = r2[0]['count(*)']  # 上传次数
+            res['count'] = r2[0][0]  # 上传次数
             r3 = Db.select('t_device_attribute', where="device_id=$d['id']", vars=locals(), order="time desc",
                            limit=1)  # 获取最后一个记录
-            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
+            res['last'] = Common.secToLast(r3[0].time)  # 最后一次上传时间
         return 'success', res
 
     @classmethod
@@ -179,7 +179,7 @@ class ApiManager:
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
-        s = d['sound']  # 返回的指令状态
+        s = d.sound  # 返回的指令状态
         '''查看指令队列是否有未执行的指令'''
         r2 = Db.select('t_order_quene', what="code", where="device_id=$d['id'] and status=1", vars=locals(),
                        order="time desc",
@@ -207,19 +207,19 @@ class ApiManager:
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
         res = []  # 返回结果的字典
-        res['id'] = u['id']  # 用户ID
-        res['bt'] = Common.secToStr(u['bind_time'])  # 绑定时间
+        res['id'] = u.id  # 用户ID
+        res['bt'] = Common.secToStr(u.bind_time)  # 绑定时间
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_user_attribute', what='count(*)', where="user_id=$u['id']", vars=locals())  # 获取登录次数
-        if not r2 or r2[0]['count(*)'] == 0:
+        if not r2 or r2[0][0] == 0:
             res['count'] = 0  # 登录次数
             res['last'] = Common.secToLast(0)  # 最后一次登录时间
         else:
-            res['count'] = r2[0]['count(*)']  # 登录次数
+            res['count'] = r2[0][0]  # 登录次数
             r3 = Db.select('t_user_attribute', where="user_id=$u['id']", vars=locals(), order="time desc",
                            limit=1)  # 获取最后一个记录
-            res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次登录时间
+            res['last'] = Common.secToLast(r3[0].time)  # 最后一次登录时间
         return 'success', res
 
     @classmethod
@@ -236,24 +236,24 @@ class ApiManager:
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), limit=1)  # 获取设备基本信息
+        r1 = Db.select('t_device', where="id=$u.device_id", vars=locals(), limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         res = []  # 返回结果的字典
-        res['id'] = d['id']  # 设备ID
-        r3 = Db.select('t_device_attribute', where="device_id=$d['id']", vars=locals(), order="time desc",
+        res['id'] = d.id  # 设备ID
+        r3 = Db.select('t_device_attribute', where="device_id=$d.id", vars=locals(), order="time desc",
                        limit=1)  # 获取最后一个记录
         if not r3:  # 返回默认坐标:北京
             res['lat'] = 116  # 经度
             res['lon'] = 40  # 纬度
             res['last'] = 0  # 最后一次上传时间
         else:
-            gps = r3[0]['gps']
+            gps = r3[0].gps
             if gps == '-1,-1':  # 位置定位失败,则重新获取
                 res['e'] = 1  # 错误标识
                 '''重新获取'''
-                r3 = Db.select('t_device_attribute', where="device_id=$d['id'] and gps!='-1,-1'", vars=locals(),
+                r3 = Db.select('t_device_attribute', where="device_id=$d.id and gps!='-1,-1'", vars=locals(),
                                order="time desc", limit=1)  # 获取最后一个记录
             if not r3:
                 res['lat'] = 116  # 经度
@@ -264,7 +264,7 @@ class ApiManager:
                 g = gps.split(',')  # 解析坐标值
                 res['lat'] = g[0]  # 经度
                 res['lon'] = g[1]  # 纬度
-                res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
+                res['last'] = Common.secToLast(r3[0].time)  # 最后一次上传时间
         return 'success', res
 
     @classmethod
@@ -286,17 +286,17 @@ class ApiManager:
         t1 = t - t % 86400  # 当天0点时间戳
         t2 = t1 - 86400  # 昨天0点时间戳
         r1 = Db.select('t_device_attribute',
-                       what='gps', where="device_id=$u['device_id'] and time>$t2 and time<$t1",
+                       what='gps', where="device_id=$u.device_id and time>$t2 and time<$t1",
                        vars=locals(), order='time asc', limit=1)  # 获取设备昨日坐标信息
         if not r1:  # 返回默认坐标:北京
-            res[0]['lat'] = 116  # 经度
-            res[0]['lon'] = 40  # 纬度
+            res[0].lat = 116  # 经度
+            res[0].lon = 40  # 纬度
         else:  # 返回坐标集合
             i = 0  # 索引变量
             for g in r1:  # 遍历结果集
-                g1 = g['gps'].split(',')  # 解析坐标值
-                res[i]['lat'] = g1[0]  # 经度
-                res[i]['lon'] = g1[1]  # 纬度
+                g1 = g.gps.split(',')  # 解析坐标值
+                res[i].lat = g1[0]  # 经度
+                res[i].lon = g1[1]  # 纬度
                 i = i + 1
         return 'success', res
 
