@@ -212,7 +212,7 @@ class ApiManager:
         res['bs'] = '已绑定'  # 绑定状态
 
         r2 = Db.select('t_user_attribute', what='count(*)', where="user_id=$u['id']", vars=locals())  # 获取登录次数
-        if not r2 or not r2[0][0]:
+        if not r2 or not r2[0]:
             res['count'] = 0  # 登录次数
             res['last'] = Common.secToLast(0)  # 最后一次登录时间
         else:
