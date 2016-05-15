@@ -27,7 +27,8 @@ class Sound:
             r, d = ApiManager.getDeviceInfo(username)  # 获取设备信息
             if r == 'fail':
                 if d == errors.NOT_BIND:  # 设备未绑定
-                    return web.redirect('/bind?username=' + username)
+                    url = '/bind?username=' + username
+                    return web.redirect(url)
                 else:
                     return web.redirect('/404')
             if op == 'open':  # 打开声音
