@@ -41,7 +41,7 @@ AMap.plugin(['AMap.Scale'],function(){
 //初始化线路
 var lineArr = new Array();
 $for p in data:
-    lineArray.push(new AMap.LngLat($p['lat'],$p['lon']));
+    lineArr.push(new AMap.LngLat($p['lon'],$p['lat']));
 
 var polyline = new AMap.Polyline({
     map:map,
