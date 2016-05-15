@@ -287,14 +287,14 @@ class ApiManager:
         t2 = t1 - 86400  # 昨天0点时间戳
         r1 = Db.select('t_device_attribute',
                        what='gps', where="device_id=$u.device_id and time>$t2 and time<$t1",
-                       vars=locals(), order='time asc', limit=1)  # 获取设备昨日坐标信息
+                       vars=locals(), order='time asc')  # 获取设备昨日坐标信息
         if not r1:  # 返回默认坐标:北京
-            res[0].lat = 0  # 经度
-            res[0].lon = 0  # 纬度
+            res[0]['lat'] = 0  # 经度
+            res[0]['lon'] = 0  # 纬度
         else:  # 返回坐标集合
             i = 0  # 索引变量
             for g in r1:  # 遍历结果集
-                if g == '-1,-1':
+                if g['gps'] == '-1,-1':
                     continue
                 g1 = g['gps'].split(',')  # 解析坐标值
                 res[i]['lat'] = g1[0]  # 经度
