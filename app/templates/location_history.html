@@ -33,15 +33,6 @@ var options = {
     center: [0, 0]
 }
 
-$for p in data:
-    var lat = $p['lat'];
-    var lon = $p['lon'];
-    if(first){
-        //初始化坐标
-        options['center'] = new AMap.LngLat(lon,lat);
-        first = 0;
-    }
-    lineArr.push(new AMap.LngLat(lon,lat));
 
 var map = new AMap.Map('container',options);
 //var marker = new AMap.Marker({
