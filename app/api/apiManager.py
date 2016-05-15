@@ -185,16 +185,18 @@ class ApiManager:
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         s = d['sound']  # 返回的指令状态
+        t = 0
         '''查看指令队列是否有未执行的指令'''
-        r2 = Db.select('t_order_quene', what="code", where="device_id=$d['id'] and status=1", vars=locals(),
+        r2 = Db.select('t_order_quene', what="code,time", where="device_id=$d['id'] and status=1", vars=locals(),
                        order="time desc", limit=1)
         if r2:
             order = r2[0]  # 取出最后的一个指令码
+            t = Common.secToLast(order['time'])
             if order['code'] == orders.OPEN_SOUND:
                 s = 3  # 等待打开
             elif order['code'] == orders.CLOSE_SOUND:
                 s = 4  # 等待关闭
-        return 'success', s
+        return 'success', s, t
 
     @classmethod
     def getUserInfo(self, username):

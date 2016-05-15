@@ -1,4 +1,4 @@
-$def with (status)
+$def with (status,time)
 <!--声音控制界面-->
 <html>
 <head>
@@ -21,7 +21,10 @@ $def with (status)
 
 <body ontouchstart>
 <br>
-<p class="demos-sub-title">持续时间&nbsp;&nbsp;<span id="time">0s</span></p>
+$if status==1 or status==2:
+    <p class="demos-sub-title">当前时间&nbsp;&nbsp;<span id="time"></span></p>
+$else:
+    <p class="demos-sub-title">持续时间&nbsp;&nbsp;<span id="time1">$time</span></p>
 <hr>
 <div>
     <div class="weui_cells_title">声音状态</div>
@@ -64,6 +67,11 @@ $else:
 <script src="/static/dist/lib/jquery-2.1.4.js"></script>
 <script src="/static/dist/js/jquery-weui.js"></script>
 <script>
+
+$$(document).ready(function(){
+    $$("#time").text(getTime());
+});
+
 function close(){
     $$.confirm(
         "确定关闭?",
