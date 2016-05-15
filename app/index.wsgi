@@ -61,7 +61,7 @@ app = web.application(urls, globals())
 # session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
 #
 
-session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'username': 'LD'})
+session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': 'LD'})
 web.config._session = session
 
 def session_hook():
