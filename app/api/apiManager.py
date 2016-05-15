@@ -182,9 +182,8 @@ class ApiManager:
         s = d['sound']  # 返回的指令状态
         '''查看指令队列是否有未执行的指令'''
         r2 = Db.select('t_order_quene', what="code", where="device_id=$d['device_id'] and status=1", vars=locals(),
-                       order="time desc",
-                       limit=1)
-        if not r2:
+                       order="time desc",limit=1)
+        if r2:
             o = r2[0]  # 取出最后的一个指令码
             if o['code'] == orders.OPEN_SOUND:
                 s = 3  # 等待打开
