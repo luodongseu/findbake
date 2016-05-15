@@ -59,12 +59,14 @@ app = web.application(urls, globals())
 #else:
 #    session = web.config._session
 # session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
-#def session_hook():
-#    web.ctx.session = session
-#app.add_processor(web.loadhook(session_hook))
+#
 
 session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'username': 'LD'})
 web.config._session = session
+
+def session_hook():
+    web.ctx.session = session
+app.add_processor(web.loadhook(session_hook))
 
 #application = sae.create_wsgi_app(app)
 

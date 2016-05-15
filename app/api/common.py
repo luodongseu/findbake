@@ -32,11 +32,17 @@ class Common:
         获取登录的用户名
         :return 登录用户名:
         '''
-        r, d = self.islogin('')
-        if r == 'y':
-            return d
+        # r, d = self.islogin('')
+        # if r == 'y':
+        #     return d
+        # else:
+        #     return None
+        if web.ctx.session.username:
+            return 'web.ctx'
+        elif web.config._session.username:
+            return 'web.config'
         else:
-            return None
+            return 'no'
 
     @classmethod
     def addsession(self, username):
@@ -46,7 +52,7 @@ class Common:
         :return:
         '''
         try:
-            session = web.ctx.session
+            session = web.config._session
             session.username = username
         except Exception as e:
             return 'fail'
