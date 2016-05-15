@@ -32,8 +32,11 @@ class Common:
         获取登录的用户名
         :return 登录用户名:
         '''
-
-        return self.islogin('')
+        r, d = self.islogin('')
+        if r == 'y':
+            return d
+        else:
+            return None
 
     @classmethod
     def addsession(self, username):
