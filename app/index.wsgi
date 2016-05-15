@@ -37,7 +37,8 @@ urls = (
     '/404','Wrong',
     '/','Manager'
 )
- 
+web.config.debug=False
+
 app_root = os.path.dirname(__file__)
 templates_root = os.path.join(app_root, 'templates')
 render = web.template.render(templates_root)
@@ -50,7 +51,14 @@ class Wrong:
 app = web.application(urls, globals())
 
 #在应用处理器中加入session
-session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
+if web.config.get("_session") is None:
+    from web import utils
+    store = web.session.DiskStore(os.path.join(abspath,'sessions'))
+    session = web.session.Session(app, store,initializer={"username": ""})
+    web.config._session = session
+else:
+    session = web.config._session
+# session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
 def session_hook():
     web.ctx.session = session
 app.add_processor(web.loadhook(session_hook))
