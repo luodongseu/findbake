@@ -180,15 +180,14 @@ class ApiManager:
         if not r:  # 用户还未绑定设备
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), order="time desc",
-                       limit=1)  # 获取设备基本信息
+        r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
             return 'fail', errors.ERROR_SYSTEM
         d = r1[0]  # 取出第一个设备作为当前设备
         s = d['sound']  # 返回的指令状态
         '''查看指令队列是否有未执行的指令'''
         r2 = Db.select('t_order_quene', what="code", where="device_id=$d['id'] and status=1", vars=locals(),
-                       limit=1)
+                       order="time desc", limit=1)
         if r2:
             order = r2[0]  # 取出最后的一个指令码
             if order['code'] == orders.OPEN_SOUND:
