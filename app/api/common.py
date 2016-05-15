@@ -76,13 +76,13 @@ class Common:
             return '刚刚'
         elif d < 60:
             '''1分钟内 即为多少秒前 '''
-            return d + '秒前'
+            return str(d) + '秒前'
         elif d < 60 * 60:
             '''1小时内 即为几分钟前'''
-            return d / 60 + '分钟前'
+            return str(d / 60) + '分钟前'
         elif d < 60 * 60 * 24:
             '''1天内 即为多少小时前'''
-            return d / 60 / 60 + '小时前'
+            return str(d / 60 / 60) + '小时前'
         else:
             '''1天以上 即多少天前'''
-            return d / 60 / 60 / 24 + '天前'
+            return str(d / 60 / 60 / 24) + '天前'
