@@ -51,17 +51,20 @@ class Wrong:
 app = web.application(urls, globals())
 
 #在应用处理器中加入session
-if web.config.get("_session") is None:
-    from web import utils
-    store = web.session.DiskStore(os.path.join(abspath,'sessions'))
-    session = web.session.Session(app, store,initializer={"username": "ld"})
-    web.config._session = session
-else:
-    session = web.config._session
+#if web.config.get("_session") is None:
+#    from web import utils
+#    store = web.session.DiskStore(os.path.join(abspath,'sessions'))
+#    session = web.session.Session(app, store,initializer={"username": "ld"})
+#    web.config._session = session
+#else:
+#    session = web.config._session
 # session = web.session.Session(app, web.session.DiskStore(os.path.join(abspath,'sessions')), initializer={'username': None})
-def session_hook():
-    web.ctx.session = session
-app.add_processor(web.loadhook(session_hook))
+#def session_hook():
+#    web.ctx.session = session
+#app.add_processor(web.loadhook(session_hook))
+
+session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'username': 'LD'})
+web.config._session = session
 
 #application = sae.create_wsgi_app(app)
 
