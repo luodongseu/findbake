@@ -38,11 +38,13 @@ AMap.plugin(['AMap.Scale'],function(){
     map.addControl(scale);
 })
 
-$arr = []
+//初始化线路
+var lineArr = new Array();
 $for p in data:
-    $arr.append('['+p['lon']+','+p['lat']+']')
-var lineArr = $arr;
-
+    var line = new Array();
+    line[0] = $p['lat'];
+    line[1] = $p['lon'];
+    lineArray.push(line);
 
 var polyline = new AMap.Polyline({
     path:lineArr,          //设置线覆盖物路径
