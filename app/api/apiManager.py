@@ -256,8 +256,8 @@ class ApiManager:
                 r3 = Db.select('t_device_attribute', where="device_id=$d.id and gps!='-1,-1'", vars=locals(),
                                order="time desc", limit=1)  # 获取最后一个记录
             if not r3:
-                res['lat'] = 116  # 经度
-                res['lon'] = 40  # 纬度
+                res['lat'] = 0  # 经度
+                res['lon'] = 0  # 纬度
                 res['last'] = 0  # 最后一次上传时间
             else:
                 gps = r3[0]['gps']
@@ -289,8 +289,8 @@ class ApiManager:
                        what='gps', where="device_id=$u.device_id and time>$t2 and time<$t1",
                        vars=locals(), order='time asc', limit=1)  # 获取设备昨日坐标信息
         if not r1:  # 返回默认坐标:北京
-            res[0].lat = 116  # 经度
-            res[0].lon = 40  # 纬度
+            res[0].lat = 0  # 经度
+            res[0].lon = 0  # 纬度
         else:  # 返回坐标集合
             i = 0  # 索引变量
             for g in r1:  # 遍历结果集
