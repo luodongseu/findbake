@@ -242,13 +242,18 @@ class ApiManager:
         d = r1[0]  # 取出第一个设备作为当前设备
         res = dict()  # 返回结果的字典
         res['id'] = d.id  # 设备ID
-        r3 = Db.select('t_device_attribute', where="device_id=$d.id", vars=locals(), order="time desc",
+
+        r3_e = Db.select('t_device_attribute', where="device_id=$d.id", vars=locals(), order="time desc",
                        limit=1)  # 获取最后一个记录
+        r3 = []
         if not r3:  # 返回默认坐标:北京
             res['lat'] = 116  # 经度
             res['lon'] = 40  # 纬度
             res['last'] = 0  # 最后一次上传时间
         else:
+            for x in r3_e:
+                r3.append(x)
+
             gps = r3[0].gps
             if gps == '-1,-1':  # 位置定位失败,则重新获取
                 res['e'] = 1  # 错误标识
@@ -264,7 +269,7 @@ class ApiManager:
                 g = gps.split(',')  # 解析坐标值
                 res['lat'] = g[0]  # 经度
                 res['lon'] = g[1]  # 纬度
-                res['last'] = Common.secToLast(r3[0].time)  # 最后一次上传时间
+                res['last'] = Common.secToLast(r3[0]['time'])  # 最后一次上传时间
         return 'success', res
 
     @classmethod
@@ -285,13 +290,17 @@ class ApiManager:
         t = time.time()  # 当前时间戳
         t1 = t - t % 86400  # 当天0点时间戳
         t2 = t1 - 86400  # 昨天0点时间戳
-        r1 = Db.select('t_device_attribute',
+        r1_e = Db.select('t_device_attribute',
                        what='gps', where="device_id=$u.device_id and time>$t2 and time<$t1",
                        vars=locals(), order='time asc')  # 获取设备昨日坐标信息
+        r1 = []
         if not r1:  # 返回默认坐标:北京
             res[0]['lat'] = 0  # 经度
             res[0]['lon'] = 0  # 纬度
         else:  # 返回坐标集合
+            for x in r1_e:
+                r1.append(x)
+
             i = 0  # 索引变量
             for g in r1:  # 遍历结果集
                 if g['gps'] == '-1,-1':
