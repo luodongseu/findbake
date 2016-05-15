@@ -18,7 +18,8 @@ $def with (data)
     </style>
 </head>
 <body ontouchstart>
-<div>$data</div>
+$for p in data:
+    <div>$p</div>
 <div id="container"></div>
 <script src="/static/dist/lib/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=791658337c322d078ee45d7993685ca7"></script>
@@ -41,7 +42,7 @@ AMap.plugin(['AMap.Scale'],function(){
 
 //初始化线路
 var lineArr = new Array();
-$for p in data:
+
     alert(p);
 
 
