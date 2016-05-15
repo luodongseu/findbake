@@ -20,9 +20,9 @@ class Sound:
         静态指令执行
         :return:
         '''
-        r, username = Common.getLoginUsername()  # 获得登录用户名
-        if r == 'n':  # 不存在则返回重定向
-            return username
+        username = Common.getLoginUsername()  # 获得登录用户名
+        if not username:  # 不存在则返回重定向
+            return web.redirect('/404')
 
         input = web.input(op=None)
         op = input.op  # 操作码

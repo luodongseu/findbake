@@ -20,13 +20,13 @@ class User:
         '''
 
         username = Common.getLoginUsername()  # 获得登录用户名
-        # if r == 'n':  # 不存在则返回重定向
-        #     return username
-        return username
-        # r, data = ApiManager.getUserInfo(username)  # 获取设备信息
-        # if r == 'fail':  # 获取设备信息失败
-        #     if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页
-        #         return web.redirect('/bind?username=' + username)
-        #     else:  # 否则进入404
-        #         return web.redirect('/404')
-        # return config.render.user(data)
+        if not username:  # 不存在则返回重定向
+            return web.redirect('/404')
+
+        r, data = ApiManager.getUserInfo(username)  # 获取设备信息
+        if r == 'fail':  # 获取设备信息失败
+            if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页
+                return web.redirect('/bind?username=' + username)
+            else:  # 否则进入404
+                return web.redirect('/404')
+        return config.render.user(data)
