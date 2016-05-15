@@ -67,10 +67,10 @@ class Common:
         :param sec:
         :return:
         '''
-        if sec == 0 or sec == None:  # 时间参数错误
+        if not sec:  # 时间参数错误
             return '未知时间'
         n = time.time()  # 当前秒数
-        d = n - sec  # 时间差
+        d = n - int(sec)  # 时间差
         if d <= 3:
             '''3秒内 即为刚刚'''
             return '刚刚'
