@@ -42,9 +42,7 @@ AMap.plugin(['AMap.Scale'],function(){
 var lineArr = new Array();
 $for p in data:
     alert(p);
-    var lon = $p.lon;
-    var lat = $p.lat;
-    lineArr.push(new AMap.LngLat(lon,lat));
+
 
 var polyline = new AMap.Polyline({
     map:map,
