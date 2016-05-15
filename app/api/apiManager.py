@@ -289,8 +289,8 @@ class ApiManager:
         res_d = dict()
         res = []  # 返回结果的字典
         t = time.time()  # 当前时间戳
-        t1 = t - t % 86400  # 当天0点时间戳
-        t2 = t1 - 86400  # 昨天0点时间戳
+        t1 = int(t - t % 86400)  # 当天0点时间戳
+        t2 = int(t1 - 86400)  # 昨天0点时间戳
         r1_e = Db.select('t_device_attribute',
                        what='gps', where="device_id=$u['device_id'] and time>$t2 and time<$t1",
                        vars=locals(), order='time asc')  # 获取设备昨日坐标信息
@@ -310,7 +310,7 @@ class ApiManager:
                 res_d['lat'] = g1[0]  # 经度
                 res_d['lon'] = g1[1]  # 纬度
                 res.append(res_d)
-        return 'success', r1
+        return 'success', res
 
     @classmethod
     def sendFeedback(self, username, content):
