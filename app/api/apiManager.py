@@ -294,9 +294,11 @@ class ApiManager:
         else:  # 返回坐标集合
             i = 0  # 索引变量
             for g in r1:  # 遍历结果集
-                g1 = g.gps.split(',')  # 解析坐标值
-                res[i].lat = g1[0]  # 经度
-                res[i].lon = g1[1]  # 纬度
+                if g == '-1,-1':
+                    continue
+                g1 = g['gps'].split(',')  # 解析坐标值
+                res[i]['lat'] = g1[0]  # 经度
+                res[i]['lon'] = g1[1]  # 纬度
                 i = i + 1
         return 'success', res
 
