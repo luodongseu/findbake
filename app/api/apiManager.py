@@ -294,7 +294,6 @@ class ApiManager:
         r1_e = Db.select('t_device_attribute',
                        what='gps', where="device_id=$u['device_id'] and time>$t2 and time<$t1",
                        vars=locals(), order='time asc')  # 获取设备昨日坐标信息
-        return 'success',r1_e[0]
         r1 = []
         if not r1_e:  # 返回默认坐标:0,0
             res_d['lat'] = 0  # 经度
@@ -311,7 +310,7 @@ class ApiManager:
                 res_d['lat'] = g1[0]  # 经度
                 res_d['lon'] = g1[1]  # 纬度
                 res.append(res_d)
-        return 'success', res
+        return 'success', r1
 
     @classmethod
     def sendFeedback(self, username, content):
