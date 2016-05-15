@@ -71,13 +71,13 @@ function close(){
             //点击确认后的回调函数
             <!--alert("y");-->
             //window.location.replace("?op=close");
-            //$$.showLoading();
+            $$.showLoading();
             $$.get("#",
                 {
                     op:close
                 },
                 function(data){
-                     //$$.hideLoading();
+                     $$.hideLoading();
                      <!--if(data=="success")$$.toast("反馈成功");-->
                      <!--else $$.toast(data);-->
                      <!--$$("#fb").val('');-->
@@ -98,12 +98,13 @@ function open(){
             //点击确认后的回调函数
             <!--alert("y");-->
             //window.location.replace("?op=open");
+            $$.showLoading();
             $$.get("#",
                 {
                     op:open
                 },
                 function(data){
-                     //$$.hideLoading();
+                     $$.hideLoading();
                      <!--if(data=="success")$$.toast("反馈成功");-->
                      <!--else $$.toast(data);-->
                      <!--$$("#fb").val('');-->
