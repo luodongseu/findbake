@@ -54,7 +54,7 @@ app = web.application(urls, globals())
 if web.config.get("_session") is None:
     from web import utils
     store = web.session.DiskStore(os.path.join(abspath,'sessions'))
-    session = web.session.Session(app, store,initializer={"username": ""})
+    session = web.session.Session(app, store,initializer={"username": "ld"})
     web.config._session = session
 else:
     session = web.config._session
