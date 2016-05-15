@@ -156,7 +156,7 @@ class ApiManager:
             res['count'] = 0  # 上传次数
             res['last'] = 0  # 最后一次上传时间
         else:
-            res['count'] = r2[0][0]  # 上传次数
+            res['count'] = r2[0]['count(*)']  # 上传次数
             r3 = Db.select('t_device_attribute', where="device_id=$d['id']", vars=locals(), order="time desc",
                            limit=1)  # 获取最后一个记录
             res['last'] = Common.secToLast(r3[0].time)  # 最后一次上传时间
