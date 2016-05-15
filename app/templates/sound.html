@@ -71,13 +71,12 @@ function close(){
             //点击确认后的回调函数
             <!--alert("y");-->
             //window.location.replace("?op=close");
-            $$.showLoading();
-            $$.get("#",
+            //$$.showLoading();
+            $$.get("?op=close",
                 {
-                    op:close
                 },
                 function(data){
-                     $$.hideLoading();
+                     //$$.hideLoading();
                      <!--if(data=="success")$$.toast("反馈成功");-->
                      <!--else $$.toast(data);-->
                      <!--$$("#fb").val('');-->
@@ -98,13 +97,10 @@ function open(){
             //点击确认后的回调函数
             <!--alert("y");-->
             //window.location.replace("?op=open");
-            $$.showLoading();
-            $$.get("#",
-                {
-                    op:open
-                },
+            //$$.showLoading();
+            $$.get("?op=open",{},
                 function(data){
-                     $$.hideLoading();
+                     //$$.hideLoading();
                      <!--if(data=="success")$$.toast("反馈成功");-->
                      <!--else $$.toast(data);-->
                      <!--$$("#fb").val('');-->
@@ -119,23 +115,20 @@ function open(){
     );
 }
 
-function refresh(){
-    $$.get("#",
-                {
-                    op:close
-                },
-                function(data){
-                     //$$.hideLoading();
-                     <!--if(data=="success")$$.toast("反馈成功");-->
-                     <!--else $$.toast(data);-->
-                     <!--$$("#fb").val('');-->
-                     window.location.reload()
-                },
-                "text");//这里返回的类型有：json,html,xml,text
-}
+<!--function refresh(){-->
+    <!--$$.get("#",{},-->
+                <!--function(data){-->
+                     <!--//$$.hideLoading();-->
+                     <!--&lt;!&ndash;if(data=="success")$$.toast("反馈成功");&ndash;&gt;-->
+                     <!--&lt;!&ndash;else $$.toast(data);&ndash;&gt;-->
+                     <!--&lt;!&ndash;$$("#fb").val('');&ndash;&gt;-->
+                     <!--window.location.reload()-->
+                <!--},-->
+                <!--"text");//这里返回的类型有：json,html,xml,text-->
+<!--}-->
 
 $if status==3 or status==4:
-    setTimeout("refresh()",1000); //指定1秒刷新一次
+    setTimeout("window.location.reload()",1000); //指定1秒刷新一次
 </script>
 </body>
 </html>
