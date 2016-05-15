@@ -33,10 +33,9 @@ var options = {
 }
 
 $for p in data:
-    var line = eval($p);
     if(first){
         //初始化坐标
-        options['center'] = new AMap.LngLat(line.lon,line.lat);
+        options['center'] = new AMap.LngLat($p.lon,$p.lat);
         first = 0;
     }
     lineArr.push(new AMap.LngLat(line.lon,line.lat));
