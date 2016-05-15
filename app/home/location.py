@@ -24,7 +24,7 @@ class Location:
 
         input = web.input()
         if 'yesterday' in input.keys():
-            data = ApiManager.getYesterdayLocationInfos(username)
+            r, data = ApiManager.getYesterdayLocationInfos(username)
             return config.render.location_history(data)
         r, data = ApiManager.getDeviceLocationInfo(username)  # 获取设备定位信息
         if r == 'fail':  # 获取设备信息失败
