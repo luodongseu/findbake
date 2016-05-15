@@ -122,7 +122,10 @@ class ApiManager:
         if not r:  # 用户不存在,即未绑定,则跳转绑定
             return 'fail', errors.NOT_BIND
         u = r[0]  # 取出第一个用户为当前用户
-        ip = urllib2.urlopen(urllib2.Request("http://whatismyip.org")).read()  # 获取客户端ip
+        ip = urllib2.urlopen(urllib2.Request("http://whatismyip.org")).read().search('d+.d+.d+.d+', str).group(
+            0)  # 获取客户端ip
+        if not ip:
+            ip = '0.0.0.0'
         Db.insert('t_user_attribute', user_id=u['id'], ip=ip, time=t)  # 返回ID
         return 'success', username
 
@@ -252,7 +255,7 @@ class ApiManager:
                 res['e'] = 1  # 错误标识
                 '''重新获取'''
                 r3 = Db.select('t_device_attribute', where="device_id=$d['id'] and gps!='-1,-1'", vars=locals(),
-                           order="time desc", limit=1)  # 获取最后一个记录
+                               order="time desc", limit=1)  # 获取最后一个记录
             if not r3:
                 res['lat'] = 116  # 经度
                 res['lon'] = 40  # 纬度
