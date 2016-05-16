@@ -56,12 +56,20 @@ class ApiManager:
         '''
         (2)查询待执行指令
         '''
-        os = Db.select('t_order_quene', where="status=1 and device_id=$d['id']", vars=locals())  # 查询当前设备未执行的指令
+        os = Db.select('t_order_quene', waht="code", where="status=1 and device_id=$d['id']",
+                       vars=locals())  # 查询当前设备未执行的指令
         if not os:
             return 'success', None  # 如果没有指令未执行,则返回空字符串
         r = ''  # 返回的指令字符串
+        codes = []  # 存储不同的指令
         for o in os:
+
             code = o.code
+            if code in codes:  # 如果指令已存在,则跳过
+                continue
+            else:  # 否则加入codes中待判断
+                codes.append(code)
+
             if code == orders.OPEN_SOUND:  # 打开声音
                 Db.update('t_device', where="id=$d['id']", vars=locals(), sound=2)
             elif code == orders.CLOSE_SOUND:  # 关闭声音
