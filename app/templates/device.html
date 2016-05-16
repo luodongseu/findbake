@@ -57,29 +57,17 @@ $def with (data)
     </div>
     <div class="weui_cells_title">指令延时调整</div>
     <div class="weui_cells">
-        <!--<div class="weui_cell">-->
-            <!--<div class="weui_cell_bd weui_cell_primary">-->
-                <!--<p>当前选择</p>-->
-            <!--</div>-->
-              <!--<select class="weui_select" name="select1">-->
-                  <!--<option selected="" value="0">30秒</option>-->
-                  <!--<option value="1">20秒</option>-->
-                  <!--<option value="2">15秒</option>-->
-                  <!--<option value="3">10秒</option>-->
-                  <!--<option value="4">5秒</option>-->
-              <!--</select>-->
-        <!--</div>-->
-
         <div class="weui_cell weui_cell_select">
-        <div class="weui_cell_bd weui_cell_primary">
-          <select class="weui_select" name="select1">
-            <option selected="" value="0">选择</option>
-            <option value="1">微信号</option>
-            <option value="2">QQ号</option>
-            <option value="3">Email</option>
-          </select>
+            <div class="weui_cell_bd weui_cell_primary">
+                <select class="weui_select" id="delay_select" name="select1">
+                    <option selected="" value="30">30秒</option>
+                    <option value="20">20秒</option>
+                    <option value="15">15秒</option>
+                    <option value="10">10秒</option>
+                    <option value="5">5秒</option>
+                </select>
+            </div>
         </div>
-      </div>
     </div>
 </div>
 <br>
@@ -89,6 +77,12 @@ $def with (data)
 <script>
 $$(document).ready(function(){
     $$("#time").text(getTime());
+
+    $$("#delay_select").change(function(){
+        //alert($(this).children('option:selected').val());
+        var p1=$(this).children('option:selected').val();//这就是selected的值
+        window.location.href="xx.php?param1="+p1+"¶m2="+p2+"";//页面跳转并传参
+    })
 });
 
 function getTime() {
