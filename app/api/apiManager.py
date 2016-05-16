@@ -159,6 +159,7 @@ class ApiManager:
         res['id'] = d['id']  # 设备ID
         res['ct'] = Common.secToStr(d['create_time'])  # 生产日期
         res['bs'] = '已绑定'  # 绑定状态
+        res['rf'] = d['delay']  # 收集数据频率
 
         r2 = Db.select('t_device_attribute', what='count(*)', where="device_id=$d['id']", vars=locals())  # 获取上传次数
         if not r2:
