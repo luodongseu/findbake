@@ -41,7 +41,8 @@ class Device:
         delay = input.delay
         if not delay:
             return 'failed'
-        if isinstance(delay, (int)):
+        delay = int(delay)
+        if delay > 0:
             username = Common.getLoginUsername()  # 获得登录用户名
             if not username:  # 不存在则返回重定向
                 return web.redirect('/404')
