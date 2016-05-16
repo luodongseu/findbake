@@ -70,8 +70,8 @@ class Conversation:
         if content == "101" or "控制" in content or "controll" in content:
             return {"Title": "欢迎使用FINDBAKE控制台",
                     "Description": "FINDBAKE专注于增加每一位用户的财产安全,随时随地监控您的爱车",
-                    "PicUrl": "http://120.27.125.31/static/images/console.jpg",
-                    "Url": "http://120.27.125.31/home?username=" + username}
+                    "PicUrl": "http://luodongseu.top/static/images/console.jpg",
+                    "Url": "http://luodongseu.top/home?username=" + username}
 
         ''' 103 反馈'''
         if content.startswith('103'):
