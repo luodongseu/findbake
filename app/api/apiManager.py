@@ -56,7 +56,7 @@ class ApiManager:
         '''
         (2)查询待执行指令
         '''
-        os = Db.select('t_order_quene', where="status=1 and device_id=$d['id']", vars=locals(), limit=1)  # 查询当前设备未执行的指令
+        os = Db.select('t_order_quene', where="status=1 and device_id=$d['id']", vars=locals())  # 查询当前设备未执行的指令
         if not os:
             return 'success', None  # 如果没有指令未执行,则返回空字符串
         r = ''  # 返回的指令字符串
@@ -69,7 +69,7 @@ class ApiManager:
             elif code == orders.REFRESH_RATE_REST:  # 重置频率
                 Db.update('t_device', where="id=$d['id']", vars=locals(), delay=30)
             elif code == orders.REFRESH_RATE_HIGH:  # 提高频率
-                Db.update('t_device', where="id=$d['id']", vars=locals(), sound=15)
+                Db.update('t_device', where="id=$d['id']", vars=locals(), delay=15)
             r = r + code + ','  # 拼接指令,以逗号隔开
         Db.update('t_order_quene', where="device_id=$d['id']", vars=locals(), status=2)  # 将队列中所有当前设备的指令全部更新为完成
         return 'success', r
