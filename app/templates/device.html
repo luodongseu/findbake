@@ -79,9 +79,15 @@ $$(document).ready(function(){
     $$("#time").text(getTime());
 
     $$("#delay_select").change(function(){
-        //alert($(this).children('option:selected').val());
-        var p1=$(this).children('option:selected').val();//这就是selected的值
-        window.location.href="xx.php?param1="+p1+"¶m2="+p2+"";//页面跳转并传参
+        var d=$$(this).children('option:selected').val();//这就是selected的值
+        $$.post("?",
+                {
+                    delay=d
+                },
+                function(data){
+
+                },
+                "text");//这里返回的类型有：json,html,xml,text
     })
 
     $if data['rf']>15:
