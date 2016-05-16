@@ -88,9 +88,9 @@ $$(document).ready(function(){
     })
 
     $if data['rf']>15:
-        $$("delay_select").val("30");
+        $$("#delay_select option[value='30']").attr("selected", "selected");
     $else:
-        $$("delay_select").val("15");
+        $$("#delay_select option[value='15']").attr("selected", "selected");
 });
 
 function getTime() {
