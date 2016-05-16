@@ -56,7 +56,7 @@ class ApiManager:
         '''
         (2)查询待执行指令
         '''
-        os = Db.select('t_order_quene', waht="code", where="status=1 and device_id=$d['id']",
+        os = Db.select('t_order_quene', what="code", where="status=1 and device_id=$d['id']",
                        vars=locals())  # 查询当前设备未执行的指令
         if not os:
             return 'success', None  # 如果没有指令未执行,则返回空字符串
