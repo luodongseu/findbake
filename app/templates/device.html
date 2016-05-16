@@ -79,7 +79,7 @@ $$(document).ready(function(){
     $$("#time").text(getTime());
 
     $$("#delay_select").change(function(){
-        var d=$$(this).children('option:selected').val();//这就是selected的值
+        var d=$$(this).val();//这就是selected的值
         $$.post("?",{delay:d},
                 function(data){
 
