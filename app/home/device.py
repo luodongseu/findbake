@@ -10,6 +10,7 @@ sys.path.append("..")
 from api.common import Common
 from api.apiManager import ApiManager
 from const import errors
+from const import orders
 
 
 class Device:
@@ -53,6 +54,9 @@ class Device:
                 else:  # 否则进入404
                     return web.redirect('/404')
             else:  # 成功获取信息
-                ApiManager.sendOrder(data['id'], 'S_' + str(delay))  # 发送S_X指令
+                if delay > 15:
+                    ApiManager.sendOrder(data['id'], orders.REFRESH_RATE_REST)  # 发送S_X指令'F_' + str(delay)
+                else:
+                    ApiManager.sendOrder(data['id'], orders.REFRESH_RATE_HIGH)  # 发送S_X指令'F_' + str(delay)
                 return 'success'
         return 'fail'
