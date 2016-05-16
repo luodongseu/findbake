@@ -80,10 +80,7 @@ $$(document).ready(function(){
 
     $$("#delay_select").change(function(){
         var d=$$(this).children('option:selected').val();//这就是selected的值
-        $$.post("?",
-                {
-                    delay=d
-                },
+        $$.post("?",{delay:d},
                 function(data){
 
                 },
