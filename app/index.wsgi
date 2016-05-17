@@ -20,7 +20,7 @@ from home.location import Location
 from home.sound import Sound
 from home.feedback import Feedback
 from home.service import Service
-from mobile.api import Api
+from mobile.apis import Apis
 
 urls = (
     '/wx','Conversation',
@@ -37,7 +37,7 @@ urls = (
     '/test','Test',
     '/404','Wrong',
     '/','Manager',
-    '/mobile/api','Api'
+    '/mobile/api','Apis'
 )
 web.config.debug=False
 

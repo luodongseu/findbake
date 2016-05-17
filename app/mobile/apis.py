@@ -11,7 +11,7 @@ sys.path.append("..")
 from api.apiManager import ApiManager
 
 
-class Api:
+class Apis:
     def GET(self):
         '''
         GET请求解析
