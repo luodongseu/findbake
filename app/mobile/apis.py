@@ -88,5 +88,5 @@ class Apis:
             return res
         else:
             res['code'] = 401
-            res['data'] = m
+            res['data'] = m.encode("UTF-8")
             return res
