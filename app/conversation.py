@@ -70,8 +70,8 @@ class Conversation:
         if content == "101" or "控制" in content or "controll" in content:
             return {"Title": "欢迎使用FINDBAKE控制台",
                     "Description": "FINDBAKE专注于增加每一位用户的财产安全,随时随地监控您的爱车",
-                    "PicUrl": "http://120.27.125.31/static/images/console.jpg",
-                    "Url": "http://120.27.125.31/home?username=" + username}
+                    "PicUrl": "http://luodongseu.top/static/images/console.jpg",
+                    "Url": "http://luodongseu.top/home?username=" + username}
 
         ''' 103 反馈'''
         if content.startswith('103'):
@@ -81,11 +81,11 @@ class Conversation:
             return '================\n反馈成功!\n\n感谢您的支持!\n================'
 
         '''102命令 子菜单2'''
-        if content == "201":
-            return '================\n常用指令:\n\n301.查看设备信息\n302.查看帐号信息\n303.查看设备当前位置\n================'
+        if content == "102":
+            return '================\n常用指令:\n\n201.查看设备信息\n202.查看帐号信息\n203.查看设备当前位置\n================'
 
         '''301命令 查看设备信息'''
-        if content == '301' or "设备" in content:
+        if content == '201' or "设备" in content:
             status, deviceinfo = ApiManager.getDeviceInfo(username)
             if 'fail' == status:
                 if deviceinfo == errors.NOT_BIND:
@@ -104,7 +104,7 @@ class Conversation:
                 result += '5.最后一次上传时间:' + Common.secToLast(deviceinfo['last']) + '\n================'
 
         '''302命令 查看用户信息'''
-        if content == '302' or "我" in content or "用户" in content:
+        if content == '202' or "我" in content or "用户" in content:
             status, userinfo = ApiManager.getUserInfo(username)
             if 'fail' == status:
                 if userinfo == errors.NOT_BIND:
@@ -121,6 +121,7 @@ class Conversation:
                 result += '3.绑定状态:' + userinfo['bs'] + '\n'
                 result += '4.登录次数:' + userinfo['count'] + '\n'
                 result += '5.最后一次登录时间:' + Common.secToLast(userinfo['last']) + '\n'
+                return result
         ''' 其他数据 机器人聊天 '''
         msg = urllib2.urlopen(urllib2.Request('http://www.xiaodoubi.com/simsimiapi.php?msg=' + content)).read().encode(
             'utf-8')
