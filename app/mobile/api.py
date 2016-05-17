@@ -21,4 +21,7 @@ class Api:
         POST请求解析
         :return:
         '''
-        return web.input()
+        r = dict()
+        r['code'] = 200
+        r['username'] = 'admin'
+        return r
