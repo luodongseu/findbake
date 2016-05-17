@@ -22,6 +22,6 @@ class Api:
         :return:
         '''
         r = dict()
-        r['code'] = 200
+        r['code'] = 201
         r['username'] = 'admin'
         return r
