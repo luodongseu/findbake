@@ -36,7 +36,7 @@ urls = (
     '/service','Service',
     '/test','Test',
     '/404','Wrong',
-    '/','Manager'
+    '/','Manager',
     '/mobile/api','Api'
 )
 web.config.debug=False
