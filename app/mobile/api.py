@@ -1,13 +1,15 @@
 # coding: UTF-8
 
 '''
-设备绑定
-用户未绑定设备时调用
+移动端的API接口
 '''
 
 import web
+
+import sys
+
+sys.path.append("..")
 from api.apiManager import ApiManager
-from const import errors
 
 
 class Api:
