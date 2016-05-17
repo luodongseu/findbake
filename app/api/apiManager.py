@@ -49,6 +49,7 @@ class ApiManager:
         r = Db.select('t_device', where="code=$devicecode", vars=locals(), limit=1)  # 检查devicecode是否存在
         if not r:  # 不存在设备code
             return 'fail', errors.NO_DEVICE
+
         d = r[0]  # 取出第一个设备为当前设备
         r1 = Db.select('t_user', where="imei=$imei", vars=locals(), limit=1)  # 查询当前用户是否存在
         if r1:  # 用户已经存在了,则更新绑定
