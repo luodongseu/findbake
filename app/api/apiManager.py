@@ -20,6 +20,45 @@ Db = config.db  # 数据库操作对象
 
 class ApiManager:
     @classmethod
+    def getusernamebyimei(self, imei):
+        '''
+        通过imei号获取用户名
+        :param imei:
+        :return:
+        '''
+        if not imei:
+            return 'fail', errors.ERROR_PARAM
+        r = Db.select('t_user', where="imei=$imei", vars=locals(), limit=1)  # 查询当前设备信息
+        if not r:  # 无设备
+            return 'fail', errors.NO_DEVICE
+        else:
+            d = r[0]
+            return 'success', d['wx_name']
+
+    @classmethod
+    def binddevicebyimei(cls, devicecode, imei):
+        '''
+        通过imei号绑定设备
+        :param dqr:设备二维码
+        :param imei:手机imei号
+        :return:
+        '''
+        if not imei or not devicecode:
+            return 'fail', errors.ERROR_PARAM
+        t = time.time()  # 当前绑定时间
+        r = Db.select('t_device', where="code=$devicecode", vars=locals(), limit=1)  # 检查devicecode是否存在
+        if not r:  # 不存在设备code
+            return 'fail', errors.NO_DEVICE
+        d = r[0]  # 取出第一个设备为当前设备
+        r1 = Db.select('t_user', where="imei=$imei", vars=locals(), limit=1)  # 查询当前用户是否存在
+        if r1:  # 用户已经存在了,则更新绑定
+            Db.update('t_user', where="imei=$imei", vars=locals(), device_id=d['id'], bind_time=t)
+            return 'success', ''
+        else:  # 没有用户信息,则新建用户信息
+            Db.insert('t_user', imei=imei, device_id=d['id'], bind_time=t)
+            return 'success', ''
+
+    @classmethod
     def registerDevice(self, ccid, code, qrcodeurl):
         '''
         注册设备信息
