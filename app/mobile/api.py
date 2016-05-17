@@ -5,6 +5,8 @@
 用户未绑定设备时调用
 '''
 
+import web
+
 
 class Api:
     def GET(self):
@@ -12,9 +14,11 @@ class Api:
         GET请求解析
         :return:
         '''
+        return web.input()
 
     def POST(self):
         '''
         POST请求解析
         :return:
         '''
+        return web.input()
