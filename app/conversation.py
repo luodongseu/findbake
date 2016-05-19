@@ -34,9 +34,9 @@ class Conversation:
         hashcode = sha1.hexdigest()
         # sha1 password
         # ...
-        # if comes from weixin return echostr
-        # if hashcode == signature:
-        return echostr
+        #if comes from weixin return echostr
+        if hashcode == signature:
+            return echostr
 
     def POST(self):
         """公众平台对接"""
