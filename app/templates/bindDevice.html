@@ -73,14 +73,14 @@ $def with (data)
       success: function(data){
         //异步提交数据
         $$.post(
-            "#",
+            "",
             {
                 code:data.resultStr,
                 username:data['username']
             },
             function(result)
             {
-                //alert(result);
+                alert(result);
                 if(result=='success'){
                     window.location.href="/bind?result=success";
                 }else{
