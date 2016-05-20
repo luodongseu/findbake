@@ -82,8 +82,10 @@ $def with (data)
             {
                 alert(result);
                 if(result=="ok"){
+                    alert("ok");
                     window.location.href="/bind?result=success";
                 }else{
+                    alert("fail");
                     window.location.href="/bind?result=fail&msg="+result;
                 }
             }
