@@ -22,6 +22,8 @@ class Manager:
         # return '{201:S_C,F_R}'
         input = web.input(data=None, lat=None, lon=None, ccid=None)
         data = input.data  # 数据类型 -1/0/1...
+        if not data:
+            return web.redirect(':8080')
         # return '{'+data+'}'
         ccid = input.ccid  # 设备号
         # return '{'+ccid+'}'
