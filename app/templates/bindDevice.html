@@ -80,13 +80,13 @@ $def with (data)
             },
             function(result)
             {
-                alert(result);
+                //alert(result);
                 if(result=="ok"){
-                    alert("ok");
-                    window.location.href="/bind?result=success";
+                    //alert("ok");
+                    window.location.href="/bind?result=success&username=$data['username']";
                 }else{
-                    alert("fail");
-                    window.location.href="/bind?result=fail&msg="+result;
+                    //alert("fail");
+                    window.location.href="/bind?result=fail&username=$data['username']&msg="+result;
                 }
             }
         );
