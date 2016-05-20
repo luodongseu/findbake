@@ -84,13 +84,13 @@ class Conversation:
         if content == "102":
             return '================\n常用指令:\n\n201.查看设备信息\n202.查看帐号信息\n203.查看设备当前位置\n================'
 
-        '''301命令 查看设备信息'''
+        '''201命令 查看设备信息'''
         if content == '201' or "设备" in content:
             status, deviceinfo = ApiManager.getDeviceInfo(username)
             if 'fail' == status:
                 if deviceinfo == errors.NOT_BIND:
                     return '================\n错误: ' + deviceinfo + \
-                           '\n提示: <a href="http://120.27.125.31/bind?username=' + \
+                           '\n提示: <a href="http://luodongseu.top/bind?username=' + \
                            username + '">点我去绑定</a>\n================'
                 else:
                     return deviceinfo
@@ -103,13 +103,13 @@ class Conversation:
                 result += '4.信息上传次数:' + deviceinfo['count'] + '\n'
                 result += '5.最后一次上传时间:' + Common.secToLast(deviceinfo['last']) + '\n================'
 
-        '''302命令 查看用户信息'''
+        '''202命令 查看用户信息'''
         if content == '202' or "我" in content or "用户" in content:
             status, userinfo = ApiManager.getUserInfo(username)
             if 'fail' == status:
                 if userinfo == errors.NOT_BIND:
                     return '================\n错误: ' + userinfo + \
-                           '\n提示: <a href="http://120.27.125.31/bind?username="' + \
+                           '\n提示: <a href="http://luodongseu.top/bind?username="' + \
                            username + '>点我去绑定</a>\n================'
                 else:
                     return userinfo
@@ -122,6 +122,26 @@ class Conversation:
                 result += '4.登录次数:' + userinfo['count'] + '\n'
                 result += '5.最后一次登录时间:' + Common.secToLast(userinfo['last']) + '\n'
                 return result
+
+        '''203命令 查看位置信息'''
+        if content == '203' or '位置' in content:
+            status, location = ApiManager.getDeviceLocationInfo(username)
+            if 'fail' == status:
+                if location == errors.NOT_BIND:
+                    return '================\n错误: ' + location + \
+                           '\n提示: <a href="http://luodongseu.top/bind?username="' + \
+                           username + '>点我去绑定</a>\n================'
+                else:
+                    return location
+            else:
+                '''格式化数据后返回'''
+                result = '======用户信息如下=======\n'
+                result += '1.设备ID:' + location['id'] + '\n'
+                result += '2.经度:' + location['lat'] + '\n'
+                result += '3.纬度:' + location['lon'] + '\n'
+                result += '4.更新时间:' + Common.secToLast(location['last']) + '\n'
+                return result
+
         ''' 其他数据 机器人聊天 '''
         msg = urllib2.urlopen(urllib2.Request('http://www.xiaodoubi.com/simsimiapi.php?msg=' + content)).read().encode(
             'utf-8')
