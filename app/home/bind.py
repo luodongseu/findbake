@@ -35,7 +35,7 @@ class Bind:
         if not username:  # 检查用户名,如果用户名为空,提示失败
             return config.render.bindFail()
         result = input.result
-        if result == None:  # 如果结果为空,表示进入绑定
+        if not result:  # 如果结果为空,表示进入绑定
             fullurl = web.ctx.homedomain + web.ctx.homepath + web.ctx.fullpath
             data = JSHelper.js_data(fullurl)  # request for js ticket from weixin
             data['username'] = username  # 加入用户名信息
