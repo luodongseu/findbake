@@ -68,4 +68,4 @@ class Bind:
             if r == 'fail':
                 return msg
             else:
-                return r
+                return 'ok'
