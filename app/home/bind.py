@@ -45,7 +45,7 @@ class Bind:
                 '''
                 绑定成功
                 '''
-                data = []
+                data = dict()
                 data['username'] = username
                 return config.render.bindSuccess(data)
             else:
