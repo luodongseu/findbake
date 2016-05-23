@@ -67,7 +67,7 @@ class Common:
         :param sec:
         :return:
         '''
-        if not sec or not isinstance(sec, int):  # 时间参数错误
+        if not sec or not isinstance(int(sec), int):  # 时间参数错误
             return '未知时间'
         n = time.time()  # 当前秒数
         d = int(n) - int(sec)  # 时间差
