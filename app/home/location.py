@@ -25,7 +25,10 @@ class Location:
         input = web.input()
         if 'yesterday' in input.keys():
             r, data = ApiManager.getYesterdayLocationInfos(username)
-            return config.render.location_history(data)
+            if r == 'success':
+                return config.render.location_history(data)
+            else:
+                return web.seeother('/404')
         r, data = ApiManager.getDeviceLocationInfo(username)  # 获取设备定位信息
         if r == 'fail':  # 获取设备信息失败
             if data == errors.NOT_BIND:  # 如果未绑定 则进入绑定页
