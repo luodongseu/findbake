@@ -24,49 +24,6 @@ $data
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=791658337c322d078ee45d7993685ca7"></script>
 <script>
 
-//初始化线路
-var first = 1;
-var lineArr = new Array();
-var options = {
-    resizeEnable: true,
-    zoom: 15,
-    center: [0, 0]
-}
-var map = new AMap.Map('container',options);
-
-$for p in data:
-    var lat = parseFloat($p['lat']);
-    var lon = parseFloat($p['lon']);
-    if(first){
-        //初始化坐标
-
-        first = 0;
-    }
-    lineArr.push(new AMap.LngLat(lon,lat));
-
-
-//var marker = new AMap.Marker({
-//         position: [data[0]['lon'], data[0]['lat']]
-// });
-//  marker.setMap(map);
-//marker.setMap();//移除marker
-
-AMap.plugin(['AMap.Scale'],function(){
-    var scale = new AMap.Scale();
-    map.addControl(scale);
-})
-
-var polyline = new AMap.Polyline({
-    map:map,
-    path:lineArr,          //设置线覆盖物路径
-    strokeColor:"#3366FF", //线颜色
-    strokeOpacity: 1,       //线透明度
-    strokeWeight: 5,        //线宽
-    strokeStyle: "solid"   //线样式
-    //strokeDasharray: [10, 5] //补充线样式
-});
-
-//polyline.setMap(map);
 
 </script>
 </body>
