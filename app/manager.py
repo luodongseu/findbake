@@ -38,7 +38,7 @@ class Manager:
             '''数据不可用,单独处理'''
             d = {
                 'gps': '-1,-1',
-                'power': '90'
+                'power': '100'
             }
         else:
             logging.debug(input)
