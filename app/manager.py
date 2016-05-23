@@ -60,7 +60,7 @@ class Manager:
                 lat = '-1'
             if not lon:
                 lon = '-1'
-            gps = lat + ',' + lon
+            gps = str(lat) + ',' + str(lon)
             d = {
                 'gps': gps,
                 'power': '100'
