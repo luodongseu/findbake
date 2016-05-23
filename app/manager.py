@@ -56,11 +56,20 @@ class Manager:
             lond = int(lon[0:3])
             lonf = float(lon[3:])
             lon = lond + lonf / 60
-            if not lat:
-                lat = '-1'
-            if not lon:
-                lon = '-1'
-            gps = str(lat) + ',' + str(lon)
+            if not lat or not lon:
+                gps = '-1,-1'
+            else:
+                gps = str(lat) + ',' + str(lon)
+                url = 'http://restapi.amap.com/v3/assistant/coordinate/convert?locations='
+                url = url + str(lon) + ',' + str(lat) + '&coordsys=gps&output=json&key=5213133c196de6726d1ab158e01d911b'
+                req = urllib2.Request(url)
+                resp = urllib2.urlopen(req)
+                content = resp.read()
+                if content:
+                    location = json.loads(content)['locations']  # 解析json 取出解析后的高德地图的坐标
+                    if location:
+                        l = str(location).split(',')
+                        gps = l[1] + ',' + l[0]
             d = {
                 'gps': gps,
                 'power': '100'
