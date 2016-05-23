@@ -9,8 +9,12 @@ import time
 import urllib2
 import json
 
+import logging  # 日志
+
 from api.apiManager import ApiManager
 from const import errors
+
+logging.basicConfig(filename='log_manager.log', filemode='w', level=logging.DEBUG)
 
 
 class Manager:
@@ -36,12 +40,18 @@ class Manager:
                 'power': '100'
             }
         else:
+            logging.debug(input)
+
             '''处理数据:格式化坐标数据记录数据'''
             lat = str(input.lat)  # 经度
+            logging.debug(lat)
+
             latd = int(lat[0:2])
             latf = float(lat[2:])
             lat = latd + latf / 60
             lon = str(input.lon)  # 纬度
+            logging.debug(lon)
+
             lond = int(lon[0:3])
             lonf = float(lon[3:])
             lon = lond + lonf / 60
