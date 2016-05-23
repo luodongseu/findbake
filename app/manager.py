@@ -33,7 +33,7 @@ class Manager:
         # return '{'+ccid+'}'
         if not ccid:
             return '{401}'  # 参数不全
-        if data != 1:
+        if str(data) != '1':
             logging.debug("data!=1")
             '''数据不可用,单独处理'''
             d = {
