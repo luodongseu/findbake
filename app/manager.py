@@ -22,7 +22,7 @@ class Manager:
         # return '{201:S_C,F_R}'
         input = web.input(data=None, lat=None, lon=None, ccid=None)
         data = input.data  # 数据类型 -1/0/1...
-        if not data: # 转发到官网地址
+        if not data:  # 转发到官网地址
             return web.redirect('http://luodongseu.top:8080')
         # return '{'+data+'}'
         ccid = input.ccid  # 设备号
@@ -37,14 +37,14 @@ class Manager:
             }
         else:
             '''处理数据:格式化坐标数据记录数据'''
-            lat = input.lat  # 经度
+            lat = str(input.lat)  # 经度
             latd = int(lat[0:2])
-            latf = float(lat[3:])
-            lat = str(latd) + '.' + str(latf / 60)
-            lon = input.lon  # 纬度
-            lond = int(lon[0:1])
-            lonf = float(lon[2:])
-            lon = str(lond) + '.' + str(lonf / 60)
+            latf = float(lat[2:])
+            lat = latd + latf / 60
+            lon = str(input.lon)  # 纬度
+            lond = int(lon[0:3])
+            lonf = float(lon[3:])
+            lon = lond + lonf / 60
             if not lat:
                 lat = '-1'
             if not lon:
