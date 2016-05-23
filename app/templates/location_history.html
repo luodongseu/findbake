@@ -32,18 +32,19 @@ var options = {
     zoom: 15,
     center: [0, 0]
 }
+var map = new AMap.Map('container',options);
 
 $for p in data:
     var lat = $p['lat'];
     var lon = $p['lon'];
     if(first){
         //初始化坐标
-        options.center = new AMap.LngLat(lon,lat);
+        map.setZoomAndCenter(15, [lon, lat]);
         first = 0;
     }
     lineArr.push(new AMap.LngLat(lon,lat));
 
-var map = new AMap.Map('container',options);
+
 //var marker = new AMap.Marker({
 //         position: [data[0]['lon'], data[0]['lat']]
 // });
