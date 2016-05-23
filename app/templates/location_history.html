@@ -35,8 +35,8 @@ var options = {
 var map = new AMap.Map('container',options);
 
 $for p in data:
-    var lat = $p['lat'];
-    var lon = $p['lon'];
+    var lat = parseFloat($p['lat']);
+    var lon = parseFloat($p['lon']);
     if(first){
         //初始化坐标
         map.setZoomAndCenter(15, new AMap.LngLat(lon,lat));
