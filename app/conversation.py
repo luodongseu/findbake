@@ -34,7 +34,7 @@ class Conversation:
         hashcode = sha1.hexdigest()
         # sha1 password
         # ...
-        #if comes from weixin return echostr
+        # if comes from weixin return echostr
         if hashcode == signature:
             return echostr
 
@@ -97,10 +97,10 @@ class Conversation:
             else:
                 '''格式化数据后返回'''
                 result = '================\n======设备信息如下=======\n'
-                result += '1.设备ID:' + deviceinfo['id'] + '\n'
-                result += '2.生产日期:' + deviceinfo['ct'] + '\n'
-                result += '3.绑定状态:' + deviceinfo['bs'] + '\n'
-                result += '4.信息上传次数:' + deviceinfo['count'] + '\n'
+                result += '1.设备ID:' + str(deviceinfo['id']) + '\n'
+                result += '2.生产日期:' + str(deviceinfo['ct']) + '\n'
+                result += '3.绑定状态:' + str(deviceinfo['bs']) + '\n'
+                result += '4.信息上传次数:' + str(deviceinfo['count']) + '\n'
                 result += '5.最后一次上传时间:' + Common.secToLast(deviceinfo['last']) + '\n================'
 
         '''202命令 查看用户信息'''
@@ -116,10 +116,10 @@ class Conversation:
             else:
                 '''格式化数据后返回'''
                 result = '======用户信息如下=======\n'
-                result += '1.用户ID:' + userinfo['id'] + '\n'
-                result += '2.绑定时间:' + userinfo['bt'] + '\n'
-                result += '3.绑定状态:' + userinfo['bs'] + '\n'
-                result += '4.登录次数:' + userinfo['count'] + '\n'
+                result += '1.用户ID:' + str(userinfo['id']) + '\n'
+                result += '2.绑定时间:' + str(userinfo['bt']) + '\n'
+                result += '3.绑定状态:' + str(userinfo['bs']) + '\n'
+                result += '4.登录次数:' + str(userinfo['count']) + '\n'
                 result += '5.最后一次登录时间:' + Common.secToLast(userinfo['last']) + '\n'
                 return result
 
@@ -136,9 +136,9 @@ class Conversation:
             else:
                 '''格式化数据后返回'''
                 result = '======用户信息如下=======\n'
-                result += '1.设备ID:' + location['id'] + '\n'
-                result += '2.经度:' + location['lat'] + '\n'
-                result += '3.纬度:' + location['lon'] + '\n'
+                result += '1.设备ID:' + str(location['id']) + '\n'
+                result += '2.经度:' + str(location['lat']) + '\n'
+                result += '3.纬度:' + str(location['lon']) + '\n'
                 result += '4.更新时间:' + Common.secToLast(location['last']) + '\n'
                 return result
 
