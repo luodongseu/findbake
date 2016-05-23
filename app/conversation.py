@@ -165,7 +165,7 @@ class Conversation:
                     if str(status) == '2':
                         return '================\n声音已打开,请勿重复操作!\n================'
                     else:
-                        return '================\n操作正在等待执行,请稍后!\n已等待'+str(time)+'秒\n================'
+                        return '================\n操作正在等待执行,请稍后!\n已等待时间:'+str(time)+'\n================'
 
         '''205 关闭声音'''
         if content == '205' or '关闭声音' in content:
@@ -188,7 +188,7 @@ class Conversation:
                         '''关闭状态'''
                         return '================\n声音已关闭,请勿重复操作!\n================'
                     else:
-                        return '================\n操作正在等待执行,请稍后!\n已等待'+str(time)+'秒\n================'
+                        return '================\n操作正在等待执行,请稍后!\n已等待时间:'+str(time)+'\n================'
 
         ''' 其他数据 机器人聊天 '''
         msg = urllib2.urlopen(urllib2.Request('http://www.xiaodoubi.com/simsimiapi.php?msg=' + content)).read().encode(
