@@ -10,6 +10,7 @@ from weixin import handler as HD
 from api.apiManager import ApiManager
 from api.common import Common
 from const import errors
+from const import orders
 import sys
 
 reload(sys)
@@ -82,7 +83,8 @@ class Conversation:
 
         '''102命令 子菜单2'''
         if content == "102":
-            return '================\n常用指令:\n\n201.查看设备信息\n202.查看帐号信息\n203.查看设备当前位置\n================'
+            return '================\n常用指令:\n\n201.查看设备信息\n202.查看帐号信息\n203.查看设备当前位置\n204.打开声音\n205.关闭声音\n' \
+                   '================'
 
         '''201命令 查看设备信息'''
         if content == '201' or "设备" in content:
@@ -101,7 +103,7 @@ class Conversation:
                 result += '2.生产日期:' + str(deviceinfo['ct']) + '\n'
                 result += '3.绑定状态:' + str(deviceinfo['bs']) + '\n'
                 result += '4.信息上传次数:' + str(deviceinfo['count']) + '\n'
-                result += '5.最后一次上传时间:' + Common.secToLast(deviceinfo['last']) + '\n================'
+                result += '5.最后一次上传时间:' + deviceinfo['last'] + '\n================'
                 return result
 
         '''202命令 查看用户信息'''
@@ -121,7 +123,7 @@ class Conversation:
                 result += '2.绑定时间:' + str(userinfo['bt']) + '\n'
                 result += '3.绑定状态:' + str(userinfo['bs']) + '\n'
                 result += '4.登录次数:' + str(userinfo['count']) + '\n'
-                result += '5.最后一次登录时间:' + Common.secToLast(userinfo['last']) + '\n================'
+                result += '5.最后一次登录时间:' + userinfo['last'] + '\n================'
                 return result
 
         '''203命令 查看位置信息'''
@@ -140,8 +142,53 @@ class Conversation:
                 result += '1.设备ID:' + str(location['id']) + '\n'
                 result += '2.经度:' + str(location['lat']) + '\n'
                 result += '3.纬度:' + str(location['lon']) + '\n'
-                result += '4.更新时间:' + Common.secToLast(location['last']) + '\n================'
+                result += '4.更新时间:' + location['last'] + '\n================'
                 return result
+
+        '''204 打开声音'''
+        if content == '204' or '打开声音' in content:
+            status, deviceinfo = ApiManager.getDeviceInfo(username)
+            if 'fail' == status:
+                if deviceinfo == errors.NOT_BIND:
+                    return '================\n错误: ' + deviceinfo + \
+                           '\n提示: <a href="http://luodongseu.top/bind?username="' + \
+                           username + '>点我去绑定</a>\n================'
+                else:
+                    return deviceinfo
+            else:
+                r, status, time = ApiManager.getSoundStatus(username)
+                if str(status) == '1':
+                    '''关闭状态'''
+                    ApiManager.sendOrder(deviceinfo['id'], orders.OPEN_SOUND)
+                    return '================\n指令发送成功,已进入等待执行队列!\n================'
+                else:
+                    if str(status) == '2':
+                        return '================\n声音已打开,请勿重复操作!\n================'
+                    else:
+                        return '================\n操作正在等待执行,请稍后!\n已等待'+str(time)+'秒\n================'
+
+        '''205 关闭声音'''
+        if content == '205' or '关闭声音' in content:
+            status, deviceinfo = ApiManager.getDeviceInfo(username)
+            if 'fail' == status:
+                if deviceinfo == errors.NOT_BIND:
+                    return '================\n错误: ' + deviceinfo + \
+                           '\n提示: <a href="http://luodongseu.top/bind?username="' + \
+                           username + '>点我去绑定</a>\n================'
+                else:
+                    return deviceinfo
+            else:
+                r, status, time = ApiManager.getSoundStatus(username)
+                if str(status) == '2':
+                    '''打开状态'''
+                    ApiManager.sendOrder(deviceinfo['id'], orders.CLOSE_SOUND)
+                    return '================\n指令发送成功,已进入等待执行队列!\n================'
+                else:
+                    if str(status) == '1':
+                        '''关闭状态'''
+                        return '================\n声音已关闭,请勿重复操作!\n================'
+                    else:
+                        return '================\n操作正在等待执行,请稍后!\n已等待'+str(time)+'秒\n================'
 
         ''' 其他数据 机器人聊天 '''
         msg = urllib2.urlopen(urllib2.Request('http://www.xiaodoubi.com/simsimiapi.php?msg=' + content)).read().encode(

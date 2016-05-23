@@ -229,14 +229,14 @@ class ApiManager:
         :return:
         '''
         if not username:
-            return 'fail', errors.NOT_BIND
+            return 'fail', errors.NOT_BIND, ''
         r = Db.select('t_user', where="wx_name=$username", vars=locals(), limit=1)  # 查看用户是否已绑定
         if not r:  # 用户还未绑定设备
-            return 'fail', errors.NOT_BIND
+            return 'fail', errors.NOT_BIND, ''
         u = r[0]  # 取出第一个用户为当前用户
         r1 = Db.select('t_device', where="id=$u['device_id']", vars=locals(), limit=1)  # 获取设备基本信息
         if not r1:  # 如果设备不存在,则为系统错误
-            return 'fail', errors.ERROR_SYSTEM
+            return 'fail', errors.ERROR_SYSTEM, ''
         d = r1[0]  # 取出第一个设备作为当前设备
         s = d['sound']  # 返回的指令状态
         t = 0
