@@ -14,7 +14,7 @@ import logging  # 日志
 from api.apiManager import ApiManager
 from const import errors
 
-logging.basicConfig(filename='log_manager.log', filemode='w', level=logging.DEBUG)
+logging.basicConfig(filename='/var/www/findbake/app/log_manager.log', filemode='w', level=logging.DEBUG)
 
 
 class Manager:
