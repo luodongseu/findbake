@@ -9,6 +9,11 @@ import time
 import urllib2
 import json
 
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 import logging  # 日志
 
 from api.apiManager import ApiManager
