@@ -56,7 +56,7 @@ class ApiManager:
             Db.update('t_user', where="imei=$imei", vars=locals(), device_id=d['id'], bind_time=t)
             return 'success', ''
         else:  # 没有用户信息,则新建用户信息
-            name = 'Mobile_A_' + int(t)  # '''随机生成用户名'''
+            name = 'Mobile_A_' + str(int(t))  # '''随机生成用户名'''
             Db.insert('t_user', imei=imei, wx_name=name, device_id=d['id'], bind_time=t)
             return 'success', ''
 
