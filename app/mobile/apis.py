@@ -6,6 +6,7 @@
 
 import web
 import sys
+import json
 
 sys.path.append("..")
 from api.apiManager import ApiManager
@@ -37,16 +38,15 @@ class Apis:
             if 'imei' not in input:
                 return fail
             else:
-                return self.login(input.imei)
+                return json.dumps(self.login(input.imei))
         if input.req == 'bind':
             '''绑定设备接口'''
             if 'imei' not in input or 'qr' not in input:
                 return fail
             else:
-                return self.bind(input.imei, input.qr)
+                return json.dumps(self.bind(input.imei, input.qr))
 
-        r['username'] = 'admin'
-        return r
+        return fail
 
     def login(self, imei):
         '''
