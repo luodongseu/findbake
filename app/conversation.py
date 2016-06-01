@@ -51,8 +51,7 @@ class Conversation:
     def subscribe(xml):
         return "Welcom to FINDBAKE!We are created for your lovely bike remote controlling and locating!回复'菜单'获取操作指南" \
                "\n\nWe are trying best to build a better world with little lost accident!" \
-               "\n\nThank for your attention and use!" \
-               "\n\nPlease click url <a href='http://www.baidu.com'>Manage Page</a> to jump to management page!"
+               "\n\nThank for your attention and use!"
 
     @HD.unsubscribe
     def subscribe(xml):
